@@ -1,375 +1,55 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#ECE8DF">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<title>Floripa Velo</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#ECE8DF;--ink:#0B0B0B;--mut:#6D6A62;--ac:#FF4D00;--volt:#D4FF3A;--ln:#0B0B0B26;--mono:"JetBrains Mono",ui-monospace,Menlo,monospace;--fam:Archivo,"Helvetica Neue",Arial,sans-serif}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:var(--fam);font-weight:500}
-.view{position:fixed;inset:0 0 calc(62px + env(safe-area-inset-bottom)) 0;overflow:auto;padding:16px;padding-top:calc(16px + env(safe-area-inset-top))}
-[hidden]{display:none!important}
-nav{position:fixed;left:0;right:0;bottom:0;height:calc(62px + env(safe-area-inset-bottom));padding-bottom:env(safe-area-inset-bottom);background:var(--ink);display:flex;z-index:3000}
-nav button{flex:1;background:none;border:0;color:#8a877f;font:700 11px var(--mono);letter-spacing:.14em;text-transform:uppercase;position:relative}
-nav button.on{color:var(--volt)}
-nav button.on::before{content:"";position:absolute;top:0;left:25%;right:25%;height:4px;background:var(--volt)}
-.brand{font:900 expanded 19px var(--fam);letter-spacing:-.03em;text-transform:uppercase}.brand b{color:var(--ac)}
-.loc{font:700 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--mut);margin:4px 0 14px}
-.lbl{font:700 10px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mut);margin-bottom:8px}
-h1{margin:0 0 6px;font:900 ultra-condensed 54px var(--fam);text-transform:uppercase;line-height:.9}h1 b{color:var(--ac)}
-.sub{color:var(--mut);font-size:13px;line-height:1.45}
-.hero{background:var(--ink);color:#fff;border-radius:6px;padding:20px;margin-bottom:12px}
-.hero::after{content:"";display:block;height:10px;margin-top:16px;background:repeating-linear-gradient(90deg,#ffffff40 0 1px,transparent 1px 10px)}
-.hero .lbl{color:#a8a8a0}
-.hrow{display:flex;justify-content:space-between;align-items:center}
-.num{font:900 ultra-condensed 150px var(--fam);line-height:.8;letter-spacing:-.02em}
-.un{font:700 13px var(--mono);margin-left:8px;color:#a8a8a0}
-.from{font:700 12px var(--mono);text-transform:uppercase;letter-spacing:.08em;margin-top:12px;color:var(--volt)}
-.comp{width:112px;height:112px;flex:none}.comp text{fill:#8d8d85;font:700 10px var(--mono);text-anchor:middle}
-.pill{display:inline-block;margin:16px 0;padding:7px 12px;border-radius:3px;font:700 11px var(--mono);letter-spacing:.1em;text-transform:uppercase}
-.pill.bom{background:var(--volt);color:#111}.pill.ok{background:var(--ac);color:#fff}.pill.ruim{background:#111;color:#fff;border:1px solid #fff}
-.mini{display:flex;gap:18px;border-top:1px solid #ffffff33;padding-top:12px}
-.mini div{font:500 9px var(--mono);color:#a8a8a0;text-transform:uppercase;letter-spacing:.08em}.mini b{display:block;font:900 ultra-condensed 38px var(--fam);color:#fff;margin-bottom:2px}
-.card{background:#fff;border-radius:6px;padding:16px;margin-bottom:12px;border:2px solid var(--ink)}
-.go{font:900 ultra-condensed 38px var(--fam);text-transform:uppercase;line-height:.95}.go b{color:var(--ac)}
-.chart{display:flex;align-items:flex-end;gap:4px;height:130px;overflow-x:auto;padding-top:6px}
-.bar1{flex:none;width:26px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;font:700 11px var(--mono);gap:3px}
-.bar1 i{display:block;width:100%}.bar1 span{color:var(--mut);font:500 9px var(--mono)}
-.bar1.bom i{background:#B8E600}.bar1.ok i{background:var(--ac)}.bar1.ruim i{background:#111}
-.big{font:900 ultra-condensed 110px var(--fam);line-height:.85}
-.f{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}
-.btn{border:2px solid var(--ink);background:#fff;color:var(--ink);border-radius:4px;padding:9px 13px;font:700 11px var(--mono);letter-spacing:.08em;text-transform:uppercase}
-.btn.p{background:var(--ac);color:#fff}.btn.k{background:var(--ink);color:var(--volt)}
-.full{width:100%;padding:14px;font-size:12px}
-input,select,textarea{background:#fff;color:var(--ink);border:2px solid var(--ink);border-radius:4px;padding:9px 10px;font:600 15px var(--fam);max-width:100%}
-input.sm{width:84px}
-.chk{display:flex;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--ln);font-size:15px}
-.chk input{width:22px;height:22px;accent-color:#0B0B0B;padding:0}
-.tag{display:inline-block;background:var(--ink);color:var(--volt);font:700 9px var(--mono);letter-spacing:.08em;text-transform:uppercase;padding:3px 7px;border-radius:2px;margin-left:6px;vertical-align:middle}
-.tag.o{background:var(--ac);color:#fff}
-.bar{height:14px;background:#fff;border:2px solid var(--ink)}.bar i{display:block;height:100%;background:var(--ac)}
-.pt{padding:10px 0;border-bottom:1px solid var(--ln);font-size:14px}
-.dia .pill{margin:0 0 0 auto}.dh{display:flex;align-items:center;gap:8px;margin-bottom:6px}.dh b{font:900 ultra-condensed 30px var(--fam);text-transform:uppercase}
-.warn{background:var(--ac);color:#fff;border-radius:6px;padding:12px 14px;margin-bottom:12px;font-size:14px}
-.ver{font:900 ultra-condensed 78px var(--fam);text-transform:uppercase;line-height:.85}
-.ver.bom{color:var(--volt)}.ver.ok{color:var(--ac)}.ver.ruim{color:#fff}
-.hero .num{font-size:96px}
-.rs div{display:flex;gap:10px;align-items:center;font-size:14px;padding:5px 0;border-top:1px solid #ffffff22}
-.dot{flex:none;width:10px;height:10px;border-radius:50%;display:inline-block}.dot.bom{background:var(--volt)}.dot.ok{background:var(--ac)}.dot.ruim{background:#fff;box-shadow:0 0 0 2px #ff4d00}
-.strip{display:flex;gap:2px;margin:8px 0 6px}.strip i{flex:1;height:14px}.strip i.bom{background:#B8E600}.strip i.ok{background:var(--ac)}.strip i.ruim{background:#111}
-.onb{position:fixed;inset:0;z-index:5000;background:var(--bg);overflow:auto;padding:24px 18px calc(24px + env(safe-area-inset-bottom))}
-.onb label,.lb{display:block;font:700 10px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mut);margin:16px 0 6px}
-.onb select,.onb input{width:100%}
-@media(min-width:800px){.view{left:50%;right:auto;width:600px;transform:translateX(-50%)}}
-</style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ECE8DF">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="description" content="Floripa Velo - O app do ciclista em Florianópolis: vento em tempo real, rotas seguras e evolução para iniciantes.">
+  <title>Floripa Velo · Ciclismo para Iniciantes em Florianópolis</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,500..900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+
+  <!-- Estilos Modulares -->
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<section class="view" id="v-hoje"></section>
-<section class="view" id="v-semana" hidden></section>
-<section class="view" id="v-plano" hidden></section>
-<section class="view" id="v-mais" hidden></section>
 
-<section class="onb" id="onb" hidden>
-  <div class="brand">FLORIPA<b>VELO</b></div>
-  <h1 style="margin-top:14px">Vamos <b>começar</b></h1>
-  <div class="sub">Quatro perguntas, só uma vez. Tudo pode ser mudado depois na aba Mais.</div>
-  <label>De onde você costuma sair?</label>
-  <div class="f" style="margin:0"><input id="oBusca" placeholder="Bairro, rua ou praia" style="flex:1"><button class="btn" onclick="oGps()">Usar minha posição</button></div>
-  <div class="sub" id="oLocal" style="margin-top:6px"></div>
-  <label>Maior distância que você já pedalou (se não lembra, escolha a menor)</label>
-  <select id="oMax"><option value="0">Ainda não pedalei</option><option value="5">Até 5 km</option><option value="10">Uns 10 km</option><option value="20">Uns 20 km</option><option value="30">30 km ou mais</option></select>
-  <label>Quantos dias por semana quer pedalar?</label>
-  <select id="oDias"><option>2</option><option selected>3</option><option>4</option></select>
-  <label>Objetivo</label>
-  <select id="oMeta"><option value="20">Pedalar 20 km</option><option value="30">Pedalar 30 km</option><option value="50" selected>Pedalar 50 km</option><option value="80">Pedalar 80 km</option></select>
-  <button class="btn p full" style="margin-top:24px" onclick="oOk()">Começar</button>
-</section>
+  <!-- Telas / Abas Principais -->
+  <section class="view" id="v-hoje"></section>
+  <section class="view" id="v-semana" hidden></section>
+  <section class="view" id="v-plano" hidden></section>
+  <section class="view" id="v-mais" hidden></section>
 
-<nav><button data-a="hoje" class="on">Hoje</button><button data-a="semana">Semana</button><button data-a="plano">Plano</button><button data-a="mais">Mais</button></nav>
+  <!-- Tela de Onboarding (Boas-Vindas) -->
+  <section class="onb" id="onb" hidden></section>
 
-<script>
-const $=s=>document.querySelector(s);
-const LS={g(k,d){try{const v=JSON.parse(localStorage.getItem(k));return v==null?d:v}catch(e){return d}},s(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
-const uid=()=>Math.random().toString(36).slice(2,8);
-const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const p2=n=>String(n).padStart(2,'0');
-const DIR=['Norte','Nordeste','Leste','Sudeste','Sul','Sudoeste','Oeste','Noroeste'];
-const dirNome=d=>DIR[Math.round((((d%360)+360)%360)/45)%8];
-const VER={bom:'Bom para pedalar',ok:'Dá, com atenção',ruim:'Melhor evitar'};
-const nota=h=>(h.p>=50||h.v>=30||h.sens>=36||(h.r||0)>=45)?'ruim':(h.p>=25||h.v>=18||h.sens>=32||(h.r||0)>=32)?'ok':'bom';
-const score=h=>h.v+h.p/3+Math.max(0,h.sens-31)*1.5;
-const uvT=u=>u<3?'baixo':u<6?'moderado':u<8?'alto':u<11?'muito alto':'extremo';
-const fmtT=m=>{m=Math.round(m);return m>=60?Math.floor(m/60)+'h'+p2(m%60):m+' min'};
-const dstr=d=>`${d.getFullYear()}-${p2(d.getMonth()+1)}-${p2(d.getDate())}`;
-const hojeStr=()=>dstr(new Date());
-const dtxt=d=>new Date(d+'T12:00:00').toLocaleDateString('pt-BR',{weekday:'short',day:'2-digit',month:'2-digit'}).replace('.','');
-function dias7(){const o=[];for(let i=0;i<7;i++){const d=new Date();d.setDate(d.getDate()+i);o.push(dstr(d))}return o}
-function dist(a,b){const t=x=>x*Math.PI/180,dl=t(b[0]-a[0]),dn=t(b[1]-a[1]),h=Math.sin(dl/2)**2+Math.cos(t(a[0]))*Math.cos(t(b[0]))*Math.sin(dn/2)**2;return 12742*Math.asin(Math.sqrt(h))}
-function brg(a,b){const t=Math.PI/180,y=Math.sin((b[1]-a[1])*t)*Math.cos(b[0]*t),x=Math.cos(a[0]*t)*Math.sin(b[0]*t)-Math.sin(a[0]*t)*Math.cos(b[0]*t)*Math.cos((b[1]-a[1])*t);return(Math.atan2(y,x)/t+360)%360}
+  <!-- Barra de Navegação Inferior -->
+  <nav>
+    <button data-a="hoje" class="on">Hoje</button>
+    <button data-a="semana">Semana</button>
+    <button data-a="plano">Plano</button>
+    <button data-a="mais">Mais</button>
+  </nav>
 
-// ---------- DADOS (tudo fica só no seu celular) ----------
-let C=LS.g('fv2_cfg',null),F=LS.g('fv2_feitos',[]),D=LS.g('fv2_destinos',[]),A=LS.g('fv2_agenda',[]),WX=null;
-let B=LS.g('fv2_bike',{extra:0,itens:[{id:uid(),nome:'Lubrificar a corrente',cada:200,ult:null},{id:uid(),nome:'Checar freios e desgaste dos pneus',cada:500,ult:null},{id:uid(),nome:'Revisão completa na oficina',cada:1500,ult:null}]});
-const sv=()=>{LS.s('fv2_cfg',C);LS.s('fv2_feitos',F);LS.s('fv2_destinos',D);LS.s('fv2_agenda',A);LS.s('fv2_bike',B)};
-A=A.filter(a=>a.data>=hojeStr()).map(a=>({tipo:'leve',...a}));
+  <!-- Scripts da Aplicação (Estrutura Modular & Organizada) -->
+  <script src="js/config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/api/weather.js"></script>
+  <script src="js/api/routing.js"></script>
+  <script src="js/services/training.js"></script>
+  <script src="js/services/calendar.js"></script>
+  <script src="js/views/todayView.js"></script>
+  <script src="js/views/weekView.js"></script>
+  <script src="js/views/planView.js"></script>
+  <script src="js/views/moreView.js"></script>
+  <script src="js/views/onboardingView.js"></script>
+  <script src="js/app.js"></script>
 
-// ---------- CLIMA (previsão de 7 dias) ----------
-function agg(hs){const n=hs.length,o={v:Math.round(hs.reduce((s,x)=>s+x.v,0)/n),d:hs[0].d,p:Math.max(...hs.map(x=>x.p)),sens:Math.max(...hs.map(x=>x.sens)),uv:Math.max(...hs.map(x=>x.uv)),temp:Math.max(...hs.map(x=>x.temp)),r:Math.max(...hs.map(x=>x.r||0))};o.sc=hs.reduce((s,x)=>s+score(x),0)/n;o.nt=nota(o);return o}
-function diaInfo(d){
- const hj=hojeStr(),hr=new Date().getHours(),L=WX.hs.filter(x=>x.dia===d&&x.h>=5&&x.h<=18&&(d!==hj||x.h>=hr));
- if(!L.length)return null;let best=null;
- for(let i=0;i<L.length;i++){const w=L.slice(i,i+2),a=agg(w);if(!best||a.sc<best.sc)best={...a,h0:L[i].h,n:w.length}}
- return{...best,maxUv:Math.max(...L.map(x=>x.uv)),maxSens:Math.max(...L.map(x=>x.sens))};
-}
-function slot(d,h){const w=WX.hs.filter(x=>x.dia===d&&x.h>=h&&x.h<=h+1);return w.length?agg(w):null}
-async function clima(force){
- const k=C.lat.toFixed(2)+C.lng.toFixed(2),c=LS.g('fv3_wx',null);
- if(!force&&c&&c.k===k&&Date.now()-c.t<1800000){WX=c.d;return}
- try{
-  const r=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${C.lat}&longitude=${C.lng}&hourly=temperature_2m,apparent_temperature,precipitation_probability,precipitation,wind_speed_10m,wind_direction_10m,wind_gusts_10m,uv_index&daily=sunrise,sunset,temperature_2m_max,temperature_2m_min,precipitation_sum,wind_gusts_10m_max&timezone=America%2FSao_Paulo&forecast_days=7`);
-  const j=await r.json(),H=j.hourly,Q=j.daily,m=f=>Object.fromEntries(Q.time.map((d,i)=>[d,f(i)]));
-  WX={hs:H.time.map((t,i)=>({dia:t.slice(0,10),h:+t.slice(11,13),temp:Math.round(H.temperature_2m[i]),sens:Math.round(H.apparent_temperature[i]),p:H.precipitation_probability[i]||0,mm:H.precipitation[i]||0,v:Math.round(H.wind_speed_10m[i]),d:H.wind_direction_10m[i],r:Math.round(H.wind_gusts_10m[i]),uv:H.uv_index[i]||0})),
-   ps:m(i=>Q.sunset[i].slice(11,16)),sr:m(i=>Q.sunrise[i].slice(11,16)),dd:m(i=>({tmin:Math.round(Q.temperature_2m_min[i]),tmax:Math.round(Q.temperature_2m_max[i]),mm:Math.round(Q.precipitation_sum[i]*10)/10,rj:Math.round(Q.wind_gusts_10m_max[i])}))};
-  LS.s('fv3_wx',{t:Date.now(),k,d:WX});
- }catch(e){if(c&&c.k===k){WX=c.d;WX.velha=true}}
-}
-
-// ---------- PLANO: 3 tipos de pedal por semana ----------
-const TN={longao:'Longão',ritmo:'Ritmo',leve:'Leve (manutenção)'};
-const COMO={longao:'O pedal mais longo da semana, em ritmo de conversa. O objetivo é aguentar mais tempo, não ir rápido. Pare para beber água quando precisar.',ritmo:'Aqueça 10 min bem leve. Depois alterne 5 min um pouco mais firme (esforço 6 de 10, dá para falar frases curtas) com 5 min leve. Feche com 10 min leve.',leve:'Pedal de manutenção: esforço 3 a 4 de 10, pedalada leve e rápida, marchas leves. Serve para recuperar e manter o hábito.'};
-const nLong=()=>F.filter(x=>x.tipo==='longao').length;
-const rec=()=>nLong()>0&&(nLong()+1)%4===0;
-function tiposSem(){if(C.dias<=2)return['longao','leve'].slice(0,C.dias);const b=['longao','ritmo','leve'];while(b.length<C.dias)b.push('leve');return b.slice(0,C.dias)}
-function kmTipo(t){const b=t==='longao'?C.L:t==='ritmo'?C.L*0.6:C.L*0.4;return Math.min(C.meta,Math.max(3,Math.round(b*(rec()?0.7:1))))}
-const proxTipo=()=>{const t=tiposSem();return t[F.length%t.length]};
-function ajusta(km,feel,tipo){if(tipo!=='longao')return;if(km<C.L*0.8){if(feel==='pesado')C.L=Math.max(3,C.L*0.95)}else C.L=Math.min(C.meta,Math.max(3,km*({facil:1.12,medio:1.05,pesado:0.92}[feel])+(feel==='facil'?0.5:0)))}
-const totalBike=()=>F.reduce((s,x)=>s+(+x.km||0),0)+(+B.extra||0);
-
-// ---------- ROTAS DE BICICLETA REAIS (só números, sem mapa) ----------
-function dec(s){let i=0,la=0,lo=0,o=[];while(i<s.length){let b,sh=0,r=0;do{b=s.charCodeAt(i++)-63;r|=(b&31)<<sh;sh+=5}while(b>=32);la+=(r&1)?~(r>>1):r>>1;sh=0;r=0;do{b=s.charCodeAt(i++)-63;r|=(b&31)<<sh;sh+=5}while(b>=32);lo+=(r&1)?~(r>>1):r>>1;o.push([la/1e6,lo/1e6])}return o}
-function limpa(c){while(c.length>2&&dist(c[0],c[1])>0.35)c=c.slice(1);while(c.length>2&&dist(c[c.length-1],c[c.length-2])>0.35)c=c.slice(0,-1);return c}
-function kmDe(c){let k=0;for(let i=1;i<c.length;i++)k+=dist(c[i-1],c[i]);return k}
-async function viaBRouter(p){const r=await fetch(`https://brouter.de/brouter?lonlats=${p.map(x=>x[1].toFixed(6)+','+x[0].toFixed(6)).join('|')}&profile=trekking&alternativeidx=0&format=geojson`);if(!r.ok)throw 0;const c=limpa((await r.json()).features[0].geometry.coordinates.map(x=>[x[1],x[0]]));return{c,km:kmDe(c)}}
-async function viaValhalla(p){const q={locations:p.map(x=>({lat:x[0],lon:x[1]})),costing:'bicycle',costing_options:{bicycle:{bicycle_type:'Hybrid',use_roads:0.4}},directions_options:{units:'km'}};const r=await fetch('https://valhalla1.openstreetmap.de/route?json='+encodeURIComponent(JSON.stringify(q)));if(!r.ok)throw 0;const c=limpa((await r.json()).trip.legs.flatMap(l=>dec(l.shape)));return{c,km:kmDe(c)}}
-async function elev(c){const n=Math.min(100,c.length),st=(c.length-1)/Math.max(1,n-1),a=[];for(let i=0;i<n;i++)a.push(c[Math.round(i*st)]);const r=await fetch(`https://api.open-meteo.com/v1/elevation?latitude=${a.map(p=>p[0].toFixed(5)).join(',')}&longitude=${a.map(p=>p[1].toFixed(5)).join(',')}`);return(await r.json()).elevation}
-async function rotaDest(d){
- const a=[C.lat,C.lng],b=[d.lat,d.lng];let r=null;
- for(const f of[viaBRouter,viaValhalla]){try{r=await f([a,b]);if(r.c.length>2)break;r=null}catch(e){r=null}}
- if(!r){d.rota=null;return}
- const n=Math.min(80,r.c.length),st=(r.c.length-1)/(n-1),pts=[];for(let i=0;i<n;i++)pts.push(r.c[Math.round(i*st)].map(x=>+x.toFixed(5)));
- d.rota={km:Math.round(r.km*10)/10,pts};
- try{const e=await elev(r.c);let up=0;for(let i=1;i<e.length;i++)if(e[i]>e[i-1])up+=e[i]-e[i-1];d.rota.up=Math.round(up)}catch(e){}
-}
-async function recalcDest(){for(const d of D){delete d.kmIda;await rotaDest(d)}sv()}
-// vento ao longo do caminho de ida: positivo = vento de frente
-function alin(d,w){
- if(d.rota&&d.rota.pts.length>2){const p=d.rota.pts;let L=0,s=0,fr=0;for(let i=1;i<p.length;i++){const g=dist(p[i-1],p[i]);if(g<0.02)continue;const c=Math.cos((brg(p[i-1],p[i])-w.d)*Math.PI/180);L+=g;s+=g*c;if(c>0.3)fr+=g}if(L>0)return{hw:w.v*s/L,fr:fr/L,real:true}}
- const c=Math.cos((brg([C.lat,C.lng],[d.lat,d.lng])-w.d)*Math.PI/180);return{hw:w.v*c,fr:c>0.3?1:0,real:false};
-}
-const kmIda=d=>d.kmIda||(d.rota?d.rota.km:Math.round(dist([C.lat,C.lng],[d.lat,d.lng])*1.4*10)/10);
-function rankD(w,km){return D.map(d=>{const a=alin(d,w),ida=kmIda(d),g=w.v<8?0:a.hw>=3?0:a.hw<=-3?2:1;return{d,a,ida,tot:ida*2,g}}).sort((x,y)=>x.g-y.g||Math.abs(x.tot-km)-Math.abs(y.tot-km))}
-const TAG=['Ida contra o vento','Vento de lado','Ida a favor (volta mais dura)'];
-function itemD(x,km,fraco){
- const fit=Math.abs(x.tot-km)<=km*0.25?'cabe na sessão':x.tot<km?'menor que a sessão de '+km+' km':'maior que a sessão: vá só até a metade e volte';
- return `<div class="pt"><b>${esc(x.d.nome)}</b>${fraco?'':`<span class="tag ${x.g>1?'o':''}">${TAG[x.g]}</span>`}<div class="sub">${x.ida} km só de ida${x.d.rota&&x.d.rota.up?` · subida de ~${x.d.rota.up} m`:''} · ida e volta ≈ ${Math.round(x.tot)} km (${fit})${x.a.real&&!fraco?` · vento de frente em ${Math.round(x.a.fr*100)}% da ida`:''}${x.d.rota||x.d.kmIda?'':' · estimativa, sem rota calculada'}</div></div>`;
-}
-function dicaDir(w,km){
- const fraco=w.v<8,n=dirNome(w.d);
- let h=`<div class="lbl">Para onde ir</div>`+(fraco?`<div class="go">Vento fraco.<br>Vá para <b>qualquer lado</b>.</div>`:`<div class="go">Ida rumo ao <b>${n}</b>.<br>Volta com o vento a favor.</div><div class="sub" style="margin-top:8px">Assim você enfrenta o vento descansado e volta cansado, com ele empurrando. Iniciante cansado contra o vento é o jeito mais comum de se complicar.${w.v>=25?' <b>Está forte: considere outro horário ou uma saída curta.</b>':''}</div>`);
- if(!D.length)return h+`<div class="sub" style="margin-top:10px">Cadastre lugares na aba <b>Mais</b> e o app diz qual combina com o vento.</div>`;
- return h+`<div class="lbl" style="margin-top:14px">Seus lugares, do melhor ao pior neste vento</div>`+rankD(w,km).slice(0,5).map(x=>itemD(x,km,fraco)).join('')+`<div class="sub" style="margin-top:8px">Km por rota de bicicleta calculada com dados do OpenStreetMap (base usada também por apps como o Komoot). Pode diferir do seu app: corrija os km em Mais.</div>`;
-}
-
-// ---------- REPOSIÇÃO (regras gerais) ----------
-function repos(km,sens){
- const h=km/C.vel,agua=Math.max(400,Math.round(h*500*(sens>=30?1.4:1)/50)*50);let t,g=0;
- if(h<1)t='Só água é suficiente.';
- else if(h<1.5)t='Água. Se sentir fome, uma banana ou um lanche leve.';
- else{g=Math.ceil((h-1)*45/25);t=`A partir da 1ª hora, cerca de 30 a 60 g de carboidrato por hora: 1 gel (≈25 g) ou 1 banana por hora. Leve ${g} gel(s) ou equivalente.`}
- if(sens>=30||h>=2)t+=' Com calor ou pedal longo, use bebida isotônica ou eletrólitos na água.';
- return{h,agua,g,t};
-}
-
-// ---------- CONDIÇÃO PARA PEDALAR AGORA ----------
-function fatores(i0){
- const hs=WX.hs.slice(i0,i0+3),a=hs[0],mxp=Math.max(...hs.map(x=>x.p)),mm=hs.reduce((s,x)=>s+x.mm,0),rj=Math.max(...hs.map(x=>x.r)),sens=Math.max(...hs.map(x=>x.sens)),vmax=Math.max(...hs.map(x=>x.v)),uv=Math.round(Math.max(...hs.map(x=>x.uv))),ch=hs.find(x=>x.p>=50);
- const now=new Date(),ps=WX.ps[a.dia],sr=WX.sr[a.dia],mS=(new Date(`${a.dia}T${ps}:00`)-now)/60000,sem=mS<=0||now<new Date(`${a.dia}T${sr}:00`);
- return[
-  [vmax>=30?'ruim':vmax>=18?'ok':'bom',`Vento ${a.v} km/h de ${dirNome(a.d)}${vmax>a.v+3?` (sobe para ${vmax} km/h nas próximas horas)`:''}`],
-  [rj>=45?'ruim':rj>=32?'ok':'bom',`Rajadas até ${rj} km/h`],
-  [mxp>=50||mm>=1?'ruim':mxp>=25?'ok':'bom',mxp>=25?`Chuva: ${mxp}% nas próximas 3 h${ch?`, mais forte por volta das ${p2(ch.h)}h`:''}`:'Sem chuva prevista nas próximas 3 h'],
-  [sens>=36?'ruim':sens>=32||a.sens<=12?'ok':'bom',a.sens<=12?`Frio: sensação de ${a.sens}°, leve um casaco`:`Sensação térmica ${sens}°`],
-  [uv>=8?'ok':'bom',`UV ${uv} (${uvT(uv)})${uv>=3?': use protetor solar':''}`],
-  [sem||mS<45?'ruim':mS<120?'ok':'bom',sem?'Sem luz do dia agora':`Luz do dia por mais ${fmtT(mS)} (pôr do sol ${ps})`]
- ];
-}
-function proxBoa(i0){
- const hs=WX.hs,ok=x=>nota(x)==='bom'&&x.h>=5&&x.h<=17;
- if(ok(hs[i0])){let j=i0;while(j+1<hs.length&&ok(hs[j+1])&&hs[j+1].dia===hs[i0].dia)j++;return`Condição boa até ${p2(hs[j].h+1)}h.`}
- const j=hs.findIndex((x,i)=>i>i0&&ok(x));
- return j<0?'Sem janela boa nos próximos 7 dias.':`Próxima janela boa: ${hs[j].dia===hs[i0].dia?'hoje':dtxt(hs[j].dia)} às ${p2(hs[j].h)}h.`;
-}
-function renHoje(){
- const el=$('#v-hoje');if(!C){el.innerHTML='';return}
- let h=`<div class="brand">FLORIPA<b>VELO</b></div><div class="loc">${esc(C.nome)}</div>`;
- if(!WX){el.innerHTML=h+'<div class="hero">Carregando previsão…</div>';return}
- const hj=hojeStr(),hr=new Date().getHours();let i0=WX.hs.findIndex(x=>x.dia===hj&&x.h===hr);if(i0<0)i0=0;
- const a=WX.hs[i0],f=fatores(i0),rk={bom:0,ok:1,ruim:2},nt=f.filter((_,i)=>i!==4).reduce((m,x)=>rk[x[0]]>rk[m]?x[0]:m,'bom'),VT={bom:'Sim, bora',ok:'Dá, com atenção',ruim:'Melhor não agora'};
- if(WX.velha)h+='<div class="warn">Sem internet: mostrando a última previsão salva.</div>';
- h+=`<div class="hero"><div class="lbl">Dá para pedalar agora?</div><div class="ver ${nt}">${VT[nt]}</div><div class="sub" style="color:#a8a8a0;margin:6px 0 14px">${proxBoa(i0)}</div>
- <div class="hrow"><div><span class="num">${a.v}</span><span class="un">km/h</span><div class="from">vindo do ${dirNome(a.d)}</div></div>
- <svg class="comp" viewBox="0 0 120 120"><circle cx="60" cy="60" r="54" fill="none" stroke="#3a3a3a" stroke-width="2"/><text x="60" y="15">N</text><text x="108" y="64">L</text><text x="60" y="114">S</text><text x="12" y="64">O</text><g transform="rotate(${a.d+180} 60 60)"><path d="M60 24 L75 60 L60 52 L45 60 Z" fill="#D4FF3A"/><line x1="60" y1="54" x2="60" y2="96" stroke="#D4FF3A" stroke-width="5" stroke-linecap="round"/></g></svg></div>
- <div class="rs" style="margin-top:12px">${f.map(x=>`<div><i class="dot ${x[0]}"></i>${x[1]}</div>`).join('')}</div></div>`;
- const mx=Math.max(20,...WX.hs.slice(i0,i0+24).map(x=>x.v));
- h+=`<div class="card"><div class="lbl">Vento nas próximas 24 h (km/h)</div><div class="chart">${WX.hs.slice(i0,i0+24).map(x=>`<div class="bar1 ${nota(x)}">${x.v}<i style="height:${Math.max(6,x.v/mx*80)}px"></i><span>${p2(x.h)}h</span></div>`).join('')}</div><div class="sub" style="margin-top:8px">Verde-limão: bom · Laranja: atenção · Preto: evite (considera vento, rajadas, chuva e calor)</div></div>`;
- const ag=A.find(x=>x.data===hj),t=ag?ag.tipo:proxTipo(),km=ag?ag.km:kmTipo(t),rp=repos(km,a.sens);
- h+=`<div class="card"><div class="lbl">${ag?'Sua sessão de hoje':'Sessão sugerida'}${rec()?' · semana de recuperação':''}</div><div class="big">${km} km</div><div class="sub" style="margin:2px 0 6px"><span class="tag" style="margin:0">${TN[t]}</span> ≈ ${fmtT(rp.h*60)} pedalando a ${C.vel} km/h</div><div class="sub">${COMO[t]}</div><button class="btn p full" style="margin-top:12px" onclick="aba('plano')">Registrar pedal</button></div>`;
- h+=`<div class="card">${dicaDir(a,km)}</div>`;
- h+=`<div class="card"><div class="lbl">Água e reposição para esta sessão</div><div class="mini" style="border:0;padding:0;margin-bottom:8px"><div style="color:#6D6A62"><b style="color:#0B0B0B">~${rp.agua}</b>ml de água</div><div style="color:#6D6A62"><b style="color:#0B0B0B">${rp.g}</b>gel(s)</div></div><div class="sub">${rp.t}</div><div class="sub" style="margin-top:6px">Teste qualquer gel num treino, nunca em dia importante: alguns causam desconforto no estômago. Se você tem alguma condição de saúde (como diabetes), converse com médico ou nutricionista. São regras gerais.</div></div>`;
- const venc=B.itens.filter(x=>x.ult!=null&&totalBike()-x.ult>=x.cada);
- if(venc.length)h+=`<div class="warn"><b>Bike:</b> ${venc.map(x=>esc(x.nome)).join(', ')} (passou do prazo). Veja na aba Mais.</div>`;
- el.innerHTML=h;
-}
-
-// ---------- TELA SEMANA ----------
-function ics(evs){
- const stamp=new Date().toISOString().replace(/[-:]/g,'').slice(0,15)+'Z',e2=t=>String(t).replace(/([,;])/g,'\\$1'),L=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Floripa Velo//PT'];
- evs.forEach(e=>{const st=new Date(`${e.data}T${p2(e.hora)}:00:00`),en=new Date(st.getTime()+Math.max(30,Math.round(e.km/C.vel*60))*60000),f=d=>`${d.getFullYear()}${p2(d.getMonth()+1)}${p2(d.getDate())}T${p2(d.getHours())}${p2(d.getMinutes())}00`;
-  L.push('BEGIN:VEVENT','UID:'+e.id+'@floripavelo','DTSTAMP:'+stamp,'DTSTART:'+f(st),'DTEND:'+f(en),'SUMMARY:'+(e.tipo?TN[e.tipo]+' · ':'')+'Pedal '+e.km+' km','DESCRIPTION:'+e2(e.desc),'BEGIN:VALARM','TRIGGER:-PT60M','ACTION:DISPLAY','DESCRIPTION:Pedal em 1 hora','END:VALARM','END:VEVENT')});
- L.push('END:VCALENDAR');return L.join('\r\n');
-}
-function baixa(nome,txt,tipo){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([txt],{type:tipo}));a.download=nome;a.click()}
-function evDe(a){const w=WX&&slot(a.data,a.hora);return{id:a.id,data:a.data,hora:a.hora,km:a.km,tipo:a.tipo,desc:w?`Vento ${w.v} km/h de ${dirNome(w.d)}. Ida rumo ao ${dirNome(w.d)}, volta com vento a favor. Leve água.`:'Pedal planejado. Leve água.'}}
-function icsA(id){const a=A.find(x=>x.id===id);if(a)baixa('pedal.ics',ics([evDe(a)]),'text/calendar')}
-function icsTodas(){if(A.length)baixa('pedais-da-semana.ics',ics(A.map(evDe)),'text/calendar')}
-function sugerirSemana(){
- const c=dias7().map((d,i)=>({d,i,inf:diaInfo(d)})).filter(x=>x.inf).sort((a,b)=>a.inf.sc-b.inf.sc),es=[];
- for(const x of c){if(es.length>=C.dias)break;if(es.every(y=>Math.abs(y.i-x.i)>1))es.push(x)}
- for(const x of c){if(es.length>=C.dias)break;if(!es.includes(x))es.push(x)}
- const tp=tiposSem(),ord=[...es].sort((a,b)=>a.inf.sc-b.inf.sc),m=new Map(ord.map((x,k)=>[x,tp[k]]));
- A=es.sort((a,b)=>a.i-b.i).map(x=>({id:uid(),data:x.d,hora:x.inf.h0,tipo:m.get(x),km:kmTipo(m.get(x))}));sv();renSemana();
-}
-function edA(id,k,v){const a=A.find(x=>x.id===id);if(!a)return;if(k==='km')a.km=Math.max(1,parseFloat(v)||a.km);else if(k==='hora')a.hora=+v;else if(k==='tipo'){a.tipo=v;a.km=kmTipo(v)}else a[k]=v;sv();renSemana();renHoje()}
-function delA(id){A=A.filter(x=>x.id!==id);sv();renSemana();renHoje()}
-function addA(){const t=proxTipo();A.push({id:uid(),data:hojeStr(),hora:7,tipo:t,km:kmTipo(t)});sv();renSemana()}
-function renSemana(){
- const el=$('#v-semana');if(!C)return;
- let h=`<h1>Sua <b>semana</b></h1><div class="sub">Previsão dos próximos 7 dias. Quanto mais longe o dia, menos confiável. Cada quadradinho é 1 hora, das 5h às 18h (verde-limão bom, laranja atenção, preto evite).</div><div style="height:12px"></div>`;
- if(!WX){el.innerHTML=h+'<div class="card">Carregando previsão…</div>';return}
- const ds=dias7().map(d=>({d,inf:diaInfo(d)})),ok=ds.filter(x=>x.inf),melhor=ok.length?ok.reduce((a,b)=>a.inf.sc<=b.inf.sc?a:b).d:null,kl=kmTipo('longao');
- h+=ds.map(({d,inf})=>{const dd=WX.dd[d]||{},st=WX.hs.filter(x=>x.dia===d&&x.h>=5&&x.h<=18).map(x=>`<i class="${nota(x)}"></i>`).join(''),top=inf&&D.length?rankD({v:inf.v,d:inf.d},kl)[0]:null;
-  return `<div class="card dia"><div class="dh"><b>${dtxt(d)}</b>${d===melhor?'<span class="tag">Melhor dia</span>':''}${inf?`<span class="pill ${inf.nt}">${VER[inf.nt]}</span>`:''}</div><div class="strip">${st}</div>
-  ${inf?`<div class="sub">Melhor janela: <b>${p2(inf.h0)}h–${p2(inf.h0+inf.n)}h</b> · vento ${inf.v} km/h de ${dirNome(inf.d)} · chuva até ${inf.p}% · sensação ${inf.maxSens}° · UV ${Math.round(inf.maxUv)} (${uvT(inf.maxUv)})</div>`:'<div class="sub">Sem horário de luz restante hoje.</div>'}
-  <div class="sub">Dia todo: ${dd.tmin}°–${dd.tmax}° · chuva ${dd.mm} mm · rajadas até ${dd.rj} km/h · sol ${WX.sr[d]}–${WX.ps[d]}</div>
-  ${inf&&inf.v>=8?`<div class="sub">Dica: ida rumo ao <b>${dirNome(inf.d)}</b>, volta com o vento a favor.${top?` Melhor lugar neste vento: <b>${esc(top.d.nome)}</b>.`:''}</div>`:''}</div>`}).join('');
- const dd=dias7();
- h+=`<h1 style="margin-top:22px">Meus <b>pedais</b></h1><div class="sub">Sugeri os melhores dias para as suas ${C.dias} sessões: o longão no melhor dia, com descanso entre elas.${rec()?' Esta é uma semana de recuperação: km menores de propósito.':''} Mude tudo como quiser.</div>`;
- h+=A.map(a=>{const w=slot(a.data,a.hora),rp=repos(a.km,w?w.sens:25);return `<div class="card"><div class="f" style="margin:0"><select onchange="edA('${a.id}','data',this.value)">${dd.map(d=>`<option value="${d}" ${d===a.data?'selected':''}>${dtxt(d)}</option>`).join('')}</select><select onchange="edA('${a.id}','hora',this.value)">${[5,6,7,8,9,10,11,12,13,14,15,16,17,18].map(x=>`<option value="${x}" ${x===+a.hora?'selected':''}>${p2(x)}h</option>`).join('')}</select><select onchange="edA('${a.id}','tipo',this.value)">${Object.keys(TN).map(k=>`<option value="${k}" ${a.tipo===k?'selected':''}>${TN[k]}</option>`).join('')}</select><input class="sm" type="number" step="1" min="1" value="${a.km}" onchange="edA('${a.id}','km',this.value)"><span class="sub">km</span></div>
- <div class="sub" style="margin-top:8px">${w?`<span class="tag ${w.nt==='bom'?'':'o'}" style="margin:0">${VER[w.nt]}</span> vento ${w.v} km/h de ${dirNome(w.d)} · chuva ${w.p}%`:'Sem previsão para esse horário.'}</div>
- <div class="sub" style="margin-top:6px">${COMO[a.tipo]||''}</div><div class="sub" style="margin-top:6px">≈ ${fmtT(rp.h*60)} · água ~${rp.agua} ml${rp.g?` · ${rp.g} gel(s)`:''}</div><div class="f"><button class="btn" onclick="icsA('${a.id}')">Calendário</button><button class="btn" onclick="delA('${a.id}')">Remover</button></div></div>`}).join('');
- h+=`<div class="f"><button class="btn p" onclick="sugerirSemana()">Sugerir de novo</button><button class="btn" onclick="addA()">+ Sessão</button><button class="btn k" onclick="icsTodas()">Todas no calendário</button></div><div class="sub" style="margin-top:8px">O botão Calendário baixa um arquivo; no iPhone, abra-o para adicionar ao app Calendário. O lembrete toca 1 hora antes.</div>`;
- el.innerHTML=h;
-}
-
-// ---------- TELA PLANO ----------
-function reg(){
- const km=parseFloat($('#rKm').value);if(!(km>0)){$('#rMsg').textContent='Digite quantos km você fez.';return}
- const feel=$('#rFeel').value,tipo=$('#rTipo').value,t=$('#rQuando').value?new Date($('#rQuando').value):new Date();
- F.push({id:uid(),t:t.toISOString(),km,feel,cic:$('#rCic').value,tipo});ajusta(km,feel,tipo);sv();renAll();
- $('#rMsg').textContent=tipo==='longao'?'Registrado. Seu nível foi ajustado pelo longão.':'Registrado. Só o longão muda o seu nível.';
-}
-function edF(id,k,v){const x=F.find(y=>y.id===id);if(!x)return;x[k]=k==='km'?Math.max(0,parseFloat(v)||0):k==='t'?new Date(v).toISOString():v;sv();renPlano();renMais()}
-function delF(id){if(!confirm('Apagar este pedal do histórico?'))return;F=F.filter(x=>x.id!==id);sv();renPlano();renMais()}
-function edC(k,v){const n=parseFloat(v);if(k==='L')C.L=Math.max(3,n||C.L);else if(k==='meta')C.meta=Math.max(5,n||C.meta);else if(k==='dias')C.dias=Math.min(6,Math.max(1,n||C.dias));else if(k==='vel')C.vel=Math.min(40,Math.max(8,n||C.vel));sv();renAll()}
-function renPlano(){
- const el=$('#v-plano');if(!C)return;
- const ag=A.find(x=>x.data===hojeStr()),tp=ag?ag.tipo:proxTipo(),pc=Math.min(100,Math.round(C.L/C.meta*100)),agora=new Date(Date.now()-new Date().getTimezoneOffset()*60000).toISOString().slice(0,16);
- let est='Você já está no nível do objetivo. Agora é manter a regularidade.';
- if(C.L<C.meta){const n=Math.ceil(Math.log(C.meta/C.L)/Math.log(1.08)*1.25);est=`No ritmo atual, uma estimativa é chegar lá em cerca de ${Math.max(1,Math.ceil(n/Math.max(1,C.dias)))} semanas. É só uma estimativa: muda conforme você pedala.`}
- const mon=d=>{const x=new Date(d);x.setHours(0,0,0,0);x.setDate(x.getDate()-((x.getDay()+6)%7));return x},sk=[];
- for(let i=5;i>=0;i--){const s=mon(new Date());s.setDate(s.getDate()-7*i);const e=new Date(s);e.setDate(e.getDate()+7);sk.push({s,km:F.filter(x=>{const t=new Date(x.t);return t>=s&&t<e}).reduce((a,x)=>a+(+x.km||0),0)})}
- const mxk=Math.max(10,...sk.map(x=>x.km)),fl={facil:'Fácil',medio:'Médio',pesado:'Pesado'};
- el.innerHTML=`<h1>Meu <b>plano</b></h1><div class="sub">${rec()?'<b>Esta é uma semana de recuperação:</b> km menores de propósito, é quando o corpo se adapta. ':''}Sua semana com ${C.dias} pedais: ${tiposSem().map(t=>`${TN[t]} ${kmTipo(t)} km`).join(' · ')}.</div>
- <div class="card" style="margin-top:12px"><div class="lbl">Como o plano funciona (por quê)</div><div class="sub">Quem evolui no ciclismo combina três tipos de pedal por semana. O <b>longão</b> treina a resistência (aguentar mais tempo). O <b>ritmo</b> ensina o corpo a pedalar um pouco mais firme. O <b>leve</b> recupera e mantém o hábito. O aumento é gradual (cerca de 10% de cada vez), e a cada 4º longão vem uma semana de recuperação com menos km. Só o longão muda o seu nível. Para medir esforço, use a conversa: no leve e no longão, você deve conseguir falar frases inteiras.<br><br>São regras gerais para adultos saudáveis e não substituem treinador ou médico. Dor forte, tontura ou falta de ar fora do normal: pare e procure atendimento.</div></div>
- <div class="card"><div class="lbl">Registrar pedal</div><div class="f" style="margin:0"><label class="sub">Tipo<br><select id="rTipo" onchange="$('#rKm').value=kmTipo(this.value)">${Object.keys(TN).map(k=>`<option value="${k}" ${tp===k?'selected':''}>${TN[k]}</option>`).join('')}</select></label><label class="sub">Km<br><input id="rKm" class="sm" type="number" step="0.5" min="0" value="${ag?ag.km:kmTipo(tp)}"></label></div>
- <div class="f"><label class="sub">Como foi?<br><select id="rFeel"><option value="facil">Fácil</option><option value="medio" selected>Médio</option><option value="pesado">Pesado</option></select></label><label class="sub">Ciclovia estava<br><select id="rCic"><option>Vazia</option><option selected>Normal</option><option>Cheia</option></select></label></div>
- <label class="sub" style="display:block;margin-top:8px">Quando<br><input id="rQuando" type="datetime-local" value="${agora}"></label>
- <button class="btn p full" style="margin-top:12px" onclick="reg()">Registrar</button><div class="sub" id="rMsg" style="margin-top:8px"></div></div>
- <div class="card"><div class="lbl">Rumo ao seu objetivo</div><div class="f" style="justify-content:space-between;margin:0"><b>Longão atual: ${Math.round(C.L)} km</b><b>Meta: ${C.meta} km</b></div><div class="bar" style="margin:8px 0"><i style="width:${pc}%"></i></div><div class="sub">${est}</div></div>
- <div class="card"><div class="lbl">Km por semana (últimas 6)</div><div class="chart" style="height:110px">${sk.map(x=>`<div class="bar1" style="width:48px">${Math.round(x.km)}<i style="height:${Math.max(4,x.km/mxk*70)}px;background:var(--ac)"></i><span>${p2(x.s.getDate())}/${p2(x.s.getMonth()+1)}</span></div>`).join('')}</div></div>
- <div class="card"><div class="lbl">Seus pedais (toque nos campos para editar)</div>${F.length?F.slice().sort((a,b)=>b.t.localeCompare(a.t)).map(x=>`<div class="pt"><input type="datetime-local" value="${new Date(new Date(x.t).getTime()-new Date().getTimezoneOffset()*60000).toISOString().slice(0,16)}" onchange="edF('${x.id}','t',this.value)"><div class="f"><select onchange="edF('${x.id}','tipo',this.value)">${['longao','ritmo','leve'].map(k=>`<option value="${k}" ${x.tipo===k?'selected':''}>${TN[k]}</option>`).join('')}</select><input class="sm" type="number" step="0.5" value="${x.km}" onchange="edF('${x.id}','km',this.value)"><span class="sub">km</span></div><div class="f"><select onchange="edF('${x.id}','feel',this.value)">${Object.keys(fl).map(k=>`<option value="${k}" ${x.feel===k?'selected':''}>${fl[k]}</option>`).join('')}</select><select onchange="edF('${x.id}','cic',this.value)">${['Vazia','Normal','Cheia'].map(k=>`<option ${x.cic===k?'selected':''}>${k}</option>`).join('')}</select><button class="btn" onclick="delF('${x.id}')">Apagar</button></div></div>`).join(''):'<div class="sub">Nenhum pedal registrado ainda. O primeiro começa o histórico.</div>'}</div>`;
-}
-
-// ---------- TELA MAIS: perfil, destinos, bike, backup ----------
-async function buscaLugar(q){
- const lim=f=>{const [lo,la]=f.geometry.coordinates;return la<-27.3&&la>-28.1&&lo<-48.2&&lo>-48.8};
- try{
-  const r=await fetch('https://photon.komoot.io/api/?lat=-27.6&lon=-48.5&limit=8&q='+encodeURIComponent(q.includes(',')?q:q+' Florianópolis'));
-  const o=(await r.json()).features.filter(lim).map(f=>({lat:f.geometry.coordinates[1],lng:f.geometry.coordinates[0],nome:q.split(',')[0].trim(),ref:[f.properties.name,f.properties.street,f.properties.district||f.properties.suburb,f.properties.city].filter(Boolean).join(', ')}));
-  if(o.length)return o;
- }catch(e){}
- for(const t of[q+', Florianópolis, SC',q.replace(/beira\s*-?\s*mar/i,'Beira-Mar')+', Florianópolis, SC']){
-  try{const r=await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=5&countrycodes=br&viewbox=-48.65,-27.35,-48.30,-27.85&bounded=1&q='+encodeURIComponent(t));const j=await r.json();
-   if(j.length)return j.map(x=>({lat:+x.lat,lng:+x.lon,nome:q.split(',')[0].trim(),ref:x.display_name.split(',').slice(0,3).join(',')}))}catch(e){}
- }
- return[];
-}
-const geocode=async q=>(await buscaLugar(q))[0]||null;
-async function mudaLocal(){const q=$('#pBusca').value.trim();if(!q)return;try{const g=(await buscaLugar(q))[0];if(!g){$('#pMsg').textContent='Não achei esse lugar. Tente outro nome.';return}C.nome=g.nome;C.lat=g.lat;C.lng=g.lng;sv();$('#pMsg').textContent='Atualizando previsão e rotas…';await clima(true);await recalcDest();renAll()}catch(e){$('#pMsg').textContent='Busca indisponível agora.'}}
-function gpsLocal(){navigator.geolocation&&navigator.geolocation.getCurrentPosition(async p=>{C.nome='Minha posição';C.lat=p.coords.latitude;C.lng=p.coords.longitude;sv();$('#pMsg').textContent='Atualizando previsão e rotas…';await clima(true);await recalcDest();renAll()},()=>{$('#pMsg').textContent='Sem permissão de localização.'})}
-let cand=[],dMsg='Confira se o app achou o lugar certo.';
-async function buscaD(){const q=$('#dBusca').value.trim();if(!q)return;dMsg='Buscando…';cand=[];renMais();cand=await buscaLugar(q);cand.forEach(c=>c.nome=q.split(',')[0].trim());dMsg=cand.length?'':'Não achei. Tente só o nome do bairro ou do ponto, por exemplo "Lagoa da Conceição".';renMais()}
-async function escD(i){const c=cand[i];cand=[];const d={id:uid(),nome:c.nome,lat:c.lat,lng:c.lng,ref:c.ref};D.push(d);dMsg='Calculando a rota de bicicleta…';renMais();await rotaDest(d);sv();dMsg='Adicionado. Confira os km (você pode corrigir).';renMais();renHoje();renSemana()}
-async function recD(id){const d=D.find(x=>x.id===id);if(!d)return;delete d.kmIda;dMsg='Recalculando…';renMais();await rotaDest(d);sv();dMsg='Pronto.';renMais();renHoje();renSemana()}
-function edKm(id,v){const d=D.find(x=>x.id===id),n=parseFloat(v);if(d&&n>0)d.kmIda=n;sv();renMais();renHoje();renSemana()}
-function edD(id,v){const d=D.find(x=>x.id===id);if(d&&v.trim())d.nome=v.trim();sv();renHoje();renSemana()}
-function delD(id){D=D.filter(x=>x.id!==id);sv();renMais();renHoje();renSemana()}
-function edBk(id,k,v){const x=B.itens.find(y=>y.id===id);if(!x)return;if(k==='nome'){if(v.trim())x.nome=v.trim()}else x.cada=Math.max(1,parseFloat(v)||x.cada);sv();renMais();renHoje()}
-function fezBk(id){const x=B.itens.find(y=>y.id===id);if(x){x.ult=totalBike();sv();renMais();renHoje()}}
-function delBk(id){B.itens=B.itens.filter(x=>x.id!==id);sv();renMais();renHoje()}
-function addBk(){B.itens.push({id:uid(),nome:'Novo item',cada:300,ult:null});sv();renMais()}
-function edExtra(v){B.extra=Math.max(0,parseFloat(v)||0);sv();renMais();renHoje()}
-function exp(){baixa('floripa-velo-backup.json',JSON.stringify({C,F,D,A,B}),'application/json')}
-function imp(inp){const f=inp.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const o=JSON.parse(r.result);if(!o.C)throw 0;C=o.C;F=o.F||[];D=o.D||[];A=o.A||[];B=o.B||B;sv();clima(true).then(renAll)}catch(e){alert('Arquivo de backup inválido.')}};r.readAsText(f)}
-function zerar(){if(confirm('Apagar TODOS os dados do app neste aparelho?')){['fv2_cfg','fv2_feitos','fv2_destinos','fv2_agenda','fv2_bike','fv2_wx','fv2_ck'].forEach(k=>localStorage.removeItem(k));location.reload()}}
-function renMais(){
- const el=$('#v-mais');if(!C)return;const tot=totalBike();
- el.innerHTML=`<h1>Mais</h1><div class="sub">Aqui você ajusta tudo do app.</div>
- <div class="card" style="margin-top:12px"><div class="lbl">Meu perfil</div><div class="sub">Saindo de: <b>${esc(C.nome)}</b></div>
- <div class="f"><input id="pBusca" placeholder="Mudar local (bairro, rua, praia)" style="flex:1"><button class="btn" onclick="mudaLocal()">Buscar</button><button class="btn" onclick="gpsLocal()">Minha posição</button></div><div class="sub" id="pMsg"></div>
- <div class="f"><label class="sub">Nível atual (km)<br><input class="sm" type="number" step="1" value="${Math.round(C.L)}" onchange="edC('L',this.value)"></label><label class="sub">Meta (km)<br><input class="sm" type="number" value="${C.meta}" onchange="edC('meta',this.value)"></label><label class="sub">Dias/semana<br><input class="sm" type="number" value="${C.dias}" onchange="edC('dias',this.value)"></label><label class="sub">Veloc. média (km/h)<br><input class="sm" type="number" value="${C.vel}" onchange="edC('vel',this.value)"></label></div></div>
- <div class="card"><div class="lbl">Meus destinos</div><div class="sub">Lugares onde você pedala ou quer pedalar. O app calcula a distância por rota de bicicleta e o efeito do vento ao longo do caminho, sem mapa.</div>
- ${D.map(d=>`<div class="pt"><div class="f" style="margin:0"><input value="${esc(d.nome)}" onchange="edD('${d.id}',this.value)" style="flex:1"><button class="btn" onclick="delD('${d.id}')">Remover</button></div><div class="f"><span class="sub">Ida:</span><input class="sm" type="number" step="0.5" value="${kmIda(d)}" onchange="edKm('${d.id}',this.value)"><span class="sub">km</span><span class="tag ${d.rota||d.kmIda?'':'o'}">${d.kmIda?'km seu':d.rota?'rota real':'estimativa'}</span><button class="btn" onclick="recD('${d.id}')">Recalcular</button></div><div class="sub">${dirNome(brg([C.lat,C.lng],[d.lat,d.lng]))} · ${d.rota&&d.rota.up?`subida ~${d.rota.up} m na ida · `:''}encontrado: ${esc(d.ref||'')}</div></div>`).join('')}
- <div class="f"><input id="dBusca" placeholder="Ex.: Beira-Mar Norte, Lagoa, Aeroporto" style="flex:1"><button class="btn p" onclick="buscaD()">Buscar</button></div>
- ${cand.length?`<div class="sub" style="margin-top:8px">Qual destes é o lugar certo?</div>${cand.map((c,i)=>`<div class="pt"><button class="btn" style="width:100%;text-align:left;text-transform:none" onclick="escD(${i})">${esc(c.ref)}</button></div>`).join('')}`:''}
- <div class="sub" id="dMsg">${dMsg}</div></div>
- <div class="card"><div class="lbl">Minha bike</div><div class="sub">Total: <b>${Math.round(tot)} km</b> (seus pedais registrados + km que a bike já tinha)</div>
- <div class="f"><label class="sub">Km que a bike já tinha antes do app<br><input class="sm" type="number" value="${B.extra}" onchange="edExtra(this.value)"></label></div>
- ${B.itens.map(x=>{const falta=x.ult==null?null:x.cada-(tot-x.ult);return `<div class="pt"><input value="${esc(x.nome)}" onchange="edBk('${x.id}','nome',this.value)" style="width:100%"><div class="f"><span class="sub">a cada</span><input class="sm" type="number" value="${x.cada}" onchange="edBk('${x.id}','cada',this.value)"><span class="sub">km</span><span class="tag ${falta!=null&&falta<=0?'o':''}">${falta==null?'sem registro':falta<=0?'passou '+Math.round(-falta)+' km':'faltam '+Math.round(falta)+' km'}</span></div><div class="f"><button class="btn k" onclick="fezBk('${x.id}')">Fiz agora</button><button class="btn" onclick="delBk('${x.id}')">Remover</button></div></div>`}).join('')}
- <div class="f"><button class="btn" onclick="addBk()">+ Item</button></div><div class="sub" style="margin-top:8px">Os intervalos são regras gerais. A oficina sabe melhor o que a sua bike precisa.</div></div>
- <div class="card"><div class="lbl">Backup dos seus dados</div><div class="sub">O iPhone pode apagar os dados de sites. Baixe o backup de vez em quando.</div><div class="f"><button class="btn k" onclick="exp()">Baixar backup</button></div><div class="f"><label class="sub">Restaurar de um backup<br><input type="file" accept=".json" onchange="imp(this)"></label></div><div class="f"><button class="btn" onclick="zerar()">Apagar tudo</button></div></div>`;
-}
-
-// ---------- ABAS E INÍCIO ----------
-function aba(n){document.querySelectorAll('.view').forEach(v=>v.hidden=v.id!=='v-'+n);document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.a===n));window.scrollTo(0,0);$('#v-'+n).scrollTop=0}
-document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>aba(b.dataset.a));
-function renAll(){renHoje();renSemana();renPlano();renMais()}
-let oS=null;
-async function oGps(){navigator.geolocation&&navigator.geolocation.getCurrentPosition(p=>{oS={nome:'Minha posição',lat:p.coords.latitude,lng:p.coords.longitude};$('#oLocal').textContent='Partida: minha posição'},()=>{$('#oLocal').textContent='Sem permissão de localização.'})}
-$('#oBusca').addEventListener('change',async e=>{const q=e.target.value.trim();if(!q)return;try{const g=await geocode(q);if(g){oS=g;$('#oLocal').textContent='Partida: '+g.nome+' ('+g.ref+')'}else $('#oLocal').textContent='Não achei esse lugar. Tente outro nome.'}catch(x){$('#oLocal').textContent='Busca indisponível. Tente "Usar minha posição".'}});
-async function oOk(){
- if(!oS){try{oS=await geocode('Avenida Beira-Mar Norte')}catch(e){}if(!oS)oS={lat:-27.5865,lng:-48.544};oS.nome='Beira-Mar Norte'}
- const m=+$('#oMax').value;
- C={nome:oS.nome,lat:oS.lat,lng:oS.lng,dias:+$('#oDias').value,meta:+$('#oMeta').value,L:m===0?5:Math.max(5,Math.round(m*0.7)),vel:20};
- sv();$('#onb').hidden=true;await init();
-}
-async function init(){renAll();await clima();if(!A.length&&WX)sugerirSemana();renAll();if(D.some(d=>d.rota===undefined)){await recalcDest();renAll()}}
-if(!C)$('#onb').hidden=false;else init();
-</script>
 </body>
 </html>
