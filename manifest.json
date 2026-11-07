@@ -1,6 +1,6 @@
 {
   "name": "Floripa Velo",
-  "short_name": "FloripaVelo",
+  "short_name": "Floripa Velo",
   "description": "O app de pré-pedal do ciclista em Florianópolis. Vento, rotas seguras e decisões em 30 segundos.",
   "start_url": "./index.html",
   "display": "standalone",
@@ -8,14 +8,25 @@
   "theme_color": "#ECE8DF",
   "icons": [
     {
-      "src": "assets/icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
+      "src": "apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "assets/favicon.svg",
-      "sizes": "64x64",
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "assets/icon.svg",
+      "sizes": "any",
       "type": "image/svg+xml"
     }
   ]
