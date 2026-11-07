@@ -541,26 +541,20 @@ window.FloripaVelo.Views.More = {
         })()}
       </div>
 
-      <!-- Identidade Visual & Opções de Ícone -->
+      <!-- Identidade Visual & Ícone Oficial -->
       <div class="card">
-        <div class="lbl">Identidade Visual & Ícone Oficial (Estilo Endurance)</div>
-        <div class="sub">Criamos 3 conceitos com a identidade esportiva e alto contraste do Floripa Velo. Toque para testar:</div>
+        <div class="lbl">Identidade Visual & Ícone Oficial</div>
+        <div class="sub">Ícone oficial em verde Volt (#D4FF3A) com duplo chevron aerodinâmico em preto e laranja solar:</div>
         
-        <div class="icon-grid">
-          <div class="icon-card ${this.activeIcon === 'option-1' ? 'active' : ''}" onclick="window.FloripaVelo.Views.More.selectAppIcon('option-1')">
-            <img src="assets/icon-option-1.svg" alt="Opção 1">
-            <div class="icon-title">Opção 1<br><span style="color:var(--mut)">Aero & Vento</span></div>
+        <div class="f" style="align-items:center;gap:16px;margin-top:12px">
+          <div style="width:72px;height:72px;flex:none;border-radius:18px;overflow:hidden;box-shadow:2px 2px 0 #0B0B0B;border:2px solid #0B0B0B">
+            <img src="assets/icon.svg" alt="Ícone Oficial Floripa Velo" style="width:100%;height:100%;display:block">
           </div>
-          <div class="icon-card ${this.activeIcon === 'option-2' ? 'active' : ''}" onclick="window.FloripaVelo.Views.More.selectAppIcon('option-2')">
-            <img src="assets/icon-option-2.svg" alt="Opção 2">
-            <div class="icon-title">Opção 2<br><span style="color:var(--mut)">Ponte & Roda</span></div>
-          </div>
-          <div class="icon-card ${this.activeIcon === 'option-3' ? 'active' : ''}" onclick="window.FloripaVelo.Views.More.selectAppIcon('option-3')">
-            <img src="assets/icon-option-3.svg" alt="Opção 3">
-            <div class="icon-title">Opção 3<br><span style="color:var(--mut)">Monograma FV</span></div>
+          <div>
+            <div style="font-weight:800;font-family:var(--mono);font-size:14px">Floripa Velo · Endurance Volt</div>
+            <div class="sub" style="margin-top:2px">Configurado como ícone oficial do aplicativo, PWA e favicon do navegador.</div>
           </div>
         </div>
-        <div class="sub" style="font-size:11.5px">A Opção 1 está definida como o ícone principal e PWA do app.</div>
       </div>
 
       <!-- Dicas de ouro do iniciante -->
