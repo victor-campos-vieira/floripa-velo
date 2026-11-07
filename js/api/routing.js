@@ -315,5 +315,25 @@ window.FloripaVelo.Routing = {
     }
 
     return [];
+  },
+
+  // Geocodificação reversa para confirmar de onde o GPS pegou
+  async reverseGeocode(lat, lng) {
+    try {
+      const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=16&addressdetails=1`;
+      const res = await fetch(url, { headers: { 'Accept-Language': 'pt-BR,pt;q=0.9' } });
+      if (res.ok) {
+        const json = await res.json();
+        const addr = json.address || {};
+        const bairro = addr.suburb || addr.neighbourhood || addr.city_district || addr.quarter;
+        const rua = addr.road || addr.pedestrian;
+        const cidade = addr.city || addr.town || addr.municipality || 'Florianópolis';
+
+        if (bairro) return `${bairro}, ${cidade}`;
+        if (rua) return `${rua}, ${cidade}`;
+        if (json.name) return `${json.name}, ${cidade}`;
+      }
+    } catch (e) {}
+    return `Posição GPS (${lat.toFixed(3)}, ${lng.toFixed(3)})`;
   }
 };

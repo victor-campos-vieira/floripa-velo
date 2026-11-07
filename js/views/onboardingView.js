@@ -20,17 +20,23 @@ window.FloripaVelo.Views.Onboarding = {
 
     localEl.textContent = 'Obtendo localização pelo GPS…';
     navigator.geolocation.getCurrentPosition(
-      pos => {
+      async pos => {
+        localEl.textContent = 'Identificando bairro pelo GPS…';
+        const lat = pos.coords.latitude;
+        const lng = pos.coords.longitude;
+        const detected = await window.FloripaVelo.Routing.reverseGeocode(lat, lng);
+
         this.selectedOrigin = {
-          nome: 'Minha posição atual',
-          lat: pos.coords.latitude,
-          lng: pos.coords.longitude
+          nome: detected,
+          lat,
+          lng
         };
-        localEl.textContent = '✓ Partida definida: Minha posição atual';
+        localEl.textContent = `Partida confirmada: ${detected}`;
       },
       () => {
         localEl.textContent = 'Permissão de GPS recusada. Digite seu bairro acima.';
-      }
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
     );
   },
 
@@ -38,7 +44,7 @@ window.FloripaVelo.Views.Onboarding = {
   selectPresetOrigin(nome, lat, lng) {
     this.selectedOrigin = { nome, lat, lng };
     window.FloripaVelo.Utils.$('#oBusca').value = nome;
-    window.FloripaVelo.Utils.$('#oLocal').textContent = `✓ Partida selecionada: ${nome}`;
+    window.FloripaVelo.Utils.$('#oLocal').textContent = `Partida selecionada: ${nome}`;
   },
 
   // Busca textual
@@ -52,7 +58,7 @@ window.FloripaVelo.Views.Onboarding = {
       const results = await window.FloripaVelo.Routing.searchPlaces(q);
       if (results && results.length) {
         this.selectedOrigin = results[0];
-        localEl.textContent = `✓ Partida definida: ${results[0].nome} (${results[0].ref || ''})`;
+        localEl.textContent = `Partida definida: ${results[0].nome} (${results[0].ref || ''})`;
       } else {
         localEl.textContent = 'Local não encontrado. Tente o nome de um bairro ou use a Beira-Mar.';
       }

@@ -32,12 +32,9 @@ window.FloripaVelo.Views.Today = {
       return;
     }
 
-    // Header com o novo ícone oficial
+    // Topo oficial limpo (tipografia pura brutalista suíça)
     let html = `
-      <div class="app-header">
-        <img src="assets/favicon.svg" class="header-icon" alt="FV Logo">
-        <div class="brand">FLORIPA<b>VELO</b></div>
-      </div>
+      <div class="brand">FLORIPA<b>VELO</b></div>
       <div class="loc">${esc(config.nome)}</div>
     `;
 
@@ -76,8 +73,8 @@ window.FloripaVelo.Views.Today = {
     if (isVentoSul && currentHourData.v >= 18) {
       html += `
         <div class="warn">
-          <b>⚠️ Alerta Vento Sul em Floripa (${currentHourData.v} km/h):</b>
-          O vento sul entra de frente em pontes, na Beira-Mar e no Sul da Ilha. Tende a derrubar a temperatura e trazer rajadas fortes. Se for sair, proteja o peito com corta-vento e redobre a atenção na travessia das pontes!
+          <b>Alerta Vento Sul em Floripa (${currentHourData.v} km/h):</b>
+          O vento sul entra de frente em pontes, na Beira-Mar e no Sul da Ilha. Tende a derrubar a temperatura e trazer rajadas fortes. Proteja o peito com corta-vento e redobre a atenção na travessia das pontes.
         </div>
       `;
     }
@@ -117,16 +114,16 @@ window.FloripaVelo.Views.Today = {
       </div>
     `;
 
-    // NOVO: Termômetro de Roupa & Proteção Pré-Pedal
+    // Termômetro de Roupa & Proteção Pré-Pedal
     const outfit = Config.getOutfitTip(currentHourData.sens, currentHourData.v, currentHourData.uv);
     html += `
       <div class="card outfit-card">
-        <div class="lbl">O que vestir agora? (Sensação térmica ${currentHourData.sens}°C)</div>
+        <div class="lbl">Vestuário sugerido · Sensação ${currentHourData.sens}°C</div>
         <div style="font-weight:700;font-size:14px;margin-bottom:4px;color:var(--ink)">
-          👕 ${outfit.roupa}
+          ${esc(outfit.roupa)}
         </div>
         <div class="sub">
-          <b>Acessórios recomendados:</b> ${outfit.acessorios}.
+          Acessórios: ${esc(outfit.acessorios)}.
         </div>
       </div>
     `;
@@ -162,8 +159,8 @@ window.FloripaVelo.Views.Today = {
 
     html += `
       <div class="card checklist-card">
-        <div class="lbl">Checklist Rápido do Iniciante (${completedChecks}/${totalChecks})</div>
-        <div class="sub" style="margin-bottom:8px">10 segundos antes de subir na bike para não ficar na mão:</div>
+        <div class="lbl">Checklist Pré-Pedal (${completedChecks}/${totalChecks})</div>
+        <div class="sub" style="margin-bottom:8px">10 segundos antes de sair de casa:</div>
         ${Config.CHECKLIST_PRE_PEDAL.map(item => {
           const isDone = !!todayChecklist[item.id];
           return `
@@ -173,11 +170,11 @@ window.FloripaVelo.Views.Today = {
             </label>
           `;
         }).join('')}
-        ${isAllChecked ? `<div class="sub" style="margin-top:8px;color:var(--success);font-weight:700">✓ Tudo pronto! Bom pedal, divirta-se!</div>` : ''}
+        ${isAllChecked ? `<div class="sub" style="margin-top:8px;color:var(--success);font-weight:700">Tudo pronto para a saída.</div>` : ''}
         
         <div style="margin-top:10px;padding-top:8px;border-top:1px dashed var(--ln)">
           <button class="btn sm" onclick="window.FloripaVelo.App.switchTab('mais')">
-            ⚙️ Ver Guia de Calibragem no Posto (PSI)
+            Calibragem recomendada (PSI)
           </button>
         </div>
       </div>
@@ -202,7 +199,7 @@ window.FloripaVelo.Views.Today = {
     const diffSunsetMinutes = Math.round((sunsetDate - returnTime) / 60000);
 
     const whatsappText = encodeURIComponent(
-      `🚴‍♂️ Tô saindo pra pedalar agora (${sessionKm} km)! Minha volta prevista é por volta das ${returnH}h${returnM}. Qualquer coisa me liga!`
+      `Tô saindo pra pedalar agora (${sessionKm} km). Minha volta prevista é por volta das ${returnH}h${returnM}.`
     );
 
     html += `
@@ -220,15 +217,15 @@ window.FloripaVelo.Views.Today = {
 
         <!-- Calculadora de Volta e Luz do Sol -->
         <div class="time-calc-box">
-          ⏱️ <b>Se sair agora:</b> Volta estimada às <b>${returnH}h${returnM}</b>
+          <b>Saída agora:</b> retorno estimado às <b>${returnH}h${returnM}</b>
           ${diffSunsetMinutes > 0
-            ? `(ainda com <b>${formatMinutes(diffSunsetMinutes)} de luz natural</b> antes do pôr do sol)`
-            : `<br><span style="color:#b91c1c;font-weight:700">⚠️ Volta após o pôr do sol: luzes e refletivos obrigatórios!</span>`}
+            ? `(luz natural até ${sunsetStr})`
+            : `<br><span style="color:var(--ac);font-weight:700">Retorno após o pôr do sol: use iluminação e refletivos.</span>`}
         </div>
 
-        <!-- Botão WhatsApp: Avisar que está saindo -->
+        <!-- Botão WhatsApp -->
         <a href="https://api.whatsapp.com/send?text=${whatsappText}" target="_blank" class="btn wa full" style="margin-top:10px;text-decoration:none">
-          💬 Avisar no WhatsApp (Tô saindo)
+          Avisar no WhatsApp
         </a>
 
         <button class="btn p full" style="margin-top:8px" onclick="window.FloripaVelo.App.switchTab('plano')">
@@ -243,27 +240,27 @@ window.FloripaVelo.Views.Today = {
       <div class="card">
         <div class="lbl">Estratégia de Vento em Floripa</div>
         ${isLightWind ? `
-          <div class="go">Vento fraco.<br>Vá para <b>qualquer lado</b>!</div>
-          <div class="sub" style="margin-top:8px">O ar está calmo hoje na ilha, excelente para pedalar sem resistência.</div>
+          <div class="go">Vento fraco.<br>Vá para <b>qualquer lado</b>.</div>
+          <div class="sub" style="margin-top:8px">O ar está calmo na ilha, excelente para pedalar sem resistência.</div>
         ` : `
           <div class="go">Ida rumo ao <b>${windDirName}</b>.<br>Volta com vento a favor.</div>
           <div class="sub" style="margin-top:8px">
             Assim você enfrenta o vento contra descansado e volta cansado com ele te empurrando.
-            ${currentHourData.v >= 25 ? ' <b>Atenção: vento forte! Considere um trajeto mais curto.</b>' : ''}
+            ${currentHourData.v >= 25 ? ' <b>Atenção: vento forte. Considere um trajeto mais curto.</b>' : ''}
           </div>
         `}
 
         <div class="lbl" style="margin-top:16px">Seus destinos, do melhor ao pior com este vento:</div>
         ${destinations.length === 0 ? `
-          <div class="sub" style="margin-top:6px">Você ainda não adicionou nenhum destino.</div>
+          <div class="sub" style="margin-top:6px">Nenhum destino cadastrado ainda.</div>
           <div class="f" style="margin-top:10px">
             <button class="btn p" onclick="window.FloripaVelo.App.switchTab('mais')">+ Adicionar lugares em Floripa</button>
           </div>
         ` : `
           ${Routing.rankDestinations(destinations, currentHourData, sessionKm, config).slice(0, 5).map(item => {
-            const tagText = ['Ida contra o vento (Ideal)', 'Vento de lado', 'Ida a favor (volta mais dura)'][item.grade];
+            const tagText = ['Ida contra o vento', 'Vento de lado', 'Ida a favor (volta mais dura)'][item.grade];
             const fitText = Math.abs(item.totalKm - sessionKm) <= sessionKm * 0.25
-              ? 'cabe certinho na sessão'
+              ? 'cabe na sessão'
               : item.totalKm < sessionKm
                 ? `menor que a sessão de ${sessionKm} km`
                 : `maior que a sessão: vá só até a metade e volte`;
@@ -295,7 +292,7 @@ window.FloripaVelo.Views.Today = {
         <div class="sub">${hydration.text}</div>
         
         <div class="sub" style="margin-top:10px;padding-top:8px;border-top:1px dashed var(--ln);font-size:12.5px">
-          🍌 <b>Lanche 20 a 30 min antes de sair:</b> 1 banana com mel/aveia ou 1 fatia de pão com geleia. Evite frituras, queijos gordurosos e excesso de leite agora para não pesar no estômago.
+          <b>Lanche pré-pedal (20 a 30 min antes):</b> 1 banana com aveia ou 1 fatia de pão com geleia. Evite frituras e leite para não sobrecarregar a digestão.
         </div>
       </div>
     `;
@@ -312,16 +309,16 @@ window.FloripaVelo.Views.Today = {
       `;
     }
 
-    // SOS & Emergência rápida
+    // Contatos de emergência
     html += `
       <div class="card" style="border-left:6px solid #b91c1c">
-        <div class="lbl" style="color:#b91c1c">Central de Segurança & SOS</div>
-        <div class="sub">Se furar o pneu, quebrar a corrente ou precisar de socorro:</div>
+        <div class="lbl" style="color:#b91c1c">Contatos de Emergência</div>
+        <div class="sub">Em caso de acidente ou necessidade de apoio:</div>
         <div class="sos-row">
-          <a class="sos-btn" href="tel:192">📞 SAMU: 192</a>
-          <a class="sos-btn" href="tel:193">🚒 Bombeiros: 193</a>
-          <a class="sos-btn" href="tel:153">🛡️ Guarda Floripa: 153</a>
-          <a class="sos-btn" href="tel:190">🚓 PM: 190</a>
+          <a class="sos-btn" href="tel:192">SAMU 192</a>
+          <a class="sos-btn" href="tel:193">BOMBEIROS 193</a>
+          <a class="sos-btn" href="tel:153">GUARDA 153</a>
+          <a class="sos-btn" href="tel:190">PM 190</a>
         </div>
       </div>
     `;

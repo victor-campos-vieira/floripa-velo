@@ -1,6 +1,6 @@
 /* ==========================================================================
    FLORIPA VELO - ESTILOS PRINCIPAIS
-   Estética atlética, suíça e de alto contraste (Brutalist / Editorial)
+   Estética atlética, suíça e de alto contraste (Brutalist / Modern Endurance)
    ========================================================================== */
 
 :root {
@@ -9,10 +9,7 @@
   --mut: #6D6A62;        /* Texto secundário / neutro */
   --ac: #FF4D00;         /* Laranja alerta / ação secundária */
   --volt: #D4FF3A;       /* Verde-limão neon de segurança / destaque */
-  --volt-dark: #A6CC14;  /* Limão mais escuro para bordas */
   --ln: #0B0B0B26;       /* Linhas sutis divisórias */
-  --card-bg: #FFFFFF;    /* Fundo dos cartões */
-  --success: #15803d;    /* Verde para confirmações */
   --mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
   --fam: Archivo, "Helvetica Neue", Arial, sans-serif;
 }
@@ -30,6 +27,7 @@ html, body {
   font-family: var(--fam);
   font-weight: 500;
   -webkit-font-smoothing: antialiased;
+  touch-action: manipulation;
 }
 
 /* Container de visualização (scroll independente por aba) */
@@ -39,7 +37,8 @@ html, body {
   overflow-y: auto;
   overflow-x: hidden;
   padding: 16px;
-  padding-top: calc(16px + env(safe-area-inset-top));
+  padding-top: max(20px, calc(16px + env(safe-area-inset-top)));
+  padding-bottom: calc(78px + env(safe-area-inset-bottom));
   -webkit-overflow-scrolling: touch;
 }
 
@@ -60,7 +59,6 @@ nav {
   background: var(--ink);
   display: flex;
   z-index: 3000;
-  border-top: 2px solid var(--ink);
 }
 
 nav button {
@@ -78,7 +76,6 @@ nav button {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 3px;
 }
 
 nav button.on {
@@ -89,15 +86,14 @@ nav button.on::before {
   content: "";
   position: absolute;
   top: 0;
-  left: 20%;
-  right: 20%;
+  left: 25%;
+  right: 25%;
   height: 4px;
   background: var(--volt);
-  border-radius: 0 0 2px 2px;
 }
 
 /* ==========================================================================
-   TIPOGRAFIA & CABEÇALHOS
+   TIPOGRAFIA & CABEÇALHOS (ORIGINAIS EXATOS)
    ========================================================================== */
 .brand {
   font: 900 expanded 19px var(--fam);
@@ -127,10 +123,9 @@ nav button.on::before {
 
 h1 {
   margin: 0 0 6px;
-  font: 900 ultra-condensed 50px var(--fam);
+  font: 900 ultra-condensed 54px var(--fam);
   text-transform: uppercase;
-  line-height: 0.92;
-  letter-spacing: -0.01em;
+  line-height: 0.9;
 }
 
 h1 b {
@@ -147,21 +142,19 @@ h1 b {
    CARTÕES & HERO (ALTO IMPACTO)
    ========================================================================== */
 .card {
-  background: var(--card-bg);
+  background: #FFF;
   border-radius: 6px;
   padding: 16px;
   margin-bottom: 12px;
   border: 2px solid var(--ink);
-  box-shadow: 2px 2px 0px var(--ink);
 }
 
 .hero {
   background: var(--ink);
-  color: #FFFFFF;
+  color: #FFF;
   border-radius: 6px;
   padding: 20px;
   margin-bottom: 12px;
-  border: 2px solid var(--ink);
 }
 
 .hero::after {
@@ -176,6 +169,10 @@ h1 b {
   color: #A8A8A0;
 }
 
+.hero .num {
+  font-size: 96px;
+}
+
 .hrow {
   display: flex;
   justify-content: space-between;
@@ -183,8 +180,8 @@ h1 b {
 }
 
 .num {
-  font: 900 ultra-condensed 130px var(--fam);
-  line-height: 0.82;
+  font: 900 ultra-condensed 150px var(--fam);
+  line-height: 0.8;
   letter-spacing: -0.02em;
 }
 
@@ -198,17 +195,17 @@ h1 b {
   font: 700 12px var(--mono);
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  margin-top: 10px;
+  margin-top: 12px;
   color: var(--volt);
 }
 
 .big {
-  font: 900 ultra-condensed 100px var(--fam);
+  font: 900 ultra-condensed 110px var(--fam);
   line-height: 0.85;
 }
 
 .go {
-  font: 900 ultra-condensed 36px var(--fam);
+  font: 900 ultra-condensed 38px var(--fam);
   text-transform: uppercase;
   line-height: 0.95;
 }
@@ -219,19 +216,19 @@ h1 b {
 
 /* Veredito principal */
 .ver {
-  font: 900 ultra-condensed 72px var(--fam);
+  font: 900 ultra-condensed 78px var(--fam);
   text-transform: uppercase;
   line-height: 0.85;
 }
 
 .ver.bom { color: var(--volt); }
 .ver.ok { color: var(--ac); }
-.ver.ruim { color: #FFFFFF; }
+.ver.ruim { color: #FFF; }
 
 /* Bússola SVG */
 .comp {
-  width: 110px;
-  height: 110px;
+  width: 112px;
+  height: 112px;
   flex: none;
 }
 
@@ -242,12 +239,13 @@ h1 b {
 }
 
 /* ==========================================================================
-   ELEMENTOS DE STATUS: PÍLULAS, PONTOS E TAGS
+   STATUS: PÍLULAS, PONTOS E TAGS
    ========================================================================== */
 .pill {
   display: inline-block;
-  padding: 6px 12px;
-  border-radius: 4px;
+  margin: 16px 0;
+  padding: 7px 12px;
+  border-radius: 3px;
   font: 700 11px var(--mono);
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -265,14 +263,12 @@ h1 b {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   padding: 3px 7px;
-  border-radius: 3px;
+  border-radius: 2px;
   margin-left: 6px;
   vertical-align: middle;
 }
 
 .tag.o { background: var(--ac); color: #FFF; }
-.tag.neutro { background: #E5E2D9; color: var(--ink); border: 1px solid var(--ln); }
-.tag.green { background: #22c55e; color: #000; }
 
 .dot {
   flex: none;
@@ -284,19 +280,19 @@ h1 b {
 
 .dot.bom { background: var(--volt); }
 .dot.ok { background: var(--ac); }
-.dot.ruim { background: #FFF; box-shadow: 0 0 0 2px var(--ac); }
+.dot.ruim { background: #FFF; box-shadow: 0 0 0 2px #FF4D00; }
 
 .rs div {
   display: flex;
   gap: 10px;
   align-items: center;
-  font-size: 13.5px;
-  padding: 6px 0;
+  font-size: 14px;
+  padding: 5px 0;
   border-top: 1px solid #FFFFFF22;
 }
 
 /* ==========================================================================
-   GRÁFICOS E BARRAS DE TEMPO (CLIMA / EVOLUÇÃO)
+   GRÁFICOS E BARRAS DE CLIMA
    ========================================================================== */
 .chart {
   display: flex;
@@ -305,12 +301,11 @@ h1 b {
   height: 130px;
   overflow-x: auto;
   padding-top: 6px;
-  padding-bottom: 2px;
 }
 
 .bar1 {
   flex: none;
-  width: 27px;
+  width: 26px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -322,7 +317,6 @@ h1 b {
 .bar1 i {
   display: block;
   width: 100%;
-  border-radius: 2px;
 }
 
 .bar1 span {
@@ -343,7 +337,6 @@ h1 b {
 .strip i {
   flex: 1;
   height: 14px;
-  border-radius: 1px;
 }
 
 .strip i.bom { background: #B8E600; }
@@ -354,8 +347,6 @@ h1 b {
   height: 14px;
   background: #FFF;
   border: 2px solid var(--ink);
-  border-radius: 3px;
-  overflow: hidden;
 }
 
 .bar i {
@@ -365,7 +356,7 @@ h1 b {
 }
 
 /* ==========================================================================
-   BOTÕES E ENTRADAS
+   BOTÕES E ENTRADAS (16PX PARA EVITAR ZOOM AUTOMÁTICO NO IOS SAFARI)
    ========================================================================== */
 .f {
   display: flex;
@@ -385,23 +376,12 @@ h1 b {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: all 0.1s ease;
-  box-shadow: 1px 1px 0px var(--ink);
-}
-
-.btn:hover {
-  transform: translateY(-1px);
-}
-
-.btn:active {
-  transform: translateY(1px);
-  box-shadow: none;
+  touch-action: manipulation;
 }
 
 .btn.p {
   background: var(--ac);
   color: #FFF;
-  border-color: var(--ink);
 }
 
 .btn.k {
@@ -413,15 +393,8 @@ h1 b {
   background: #25D366;
   color: #0B0B0B;
   border-color: #0B0B0B;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
   font-weight: 800;
-}
-
-.btn.wa:hover {
-  background: #20BA5A;
+  text-align: center;
 }
 
 .btn.sm {
@@ -429,21 +402,22 @@ h1 b {
   font-size: 10px;
 }
 
-.btn.full {
+.full {
   width: 100%;
-  padding: 13px;
+  padding: 14px;
   font-size: 12px;
-  text-align: center;
 }
 
+/* 16px no mobile elimina zoom involuntário ao focar em input no Safari iOS */
 input, select, textarea {
   background: #FFF;
   color: var(--ink);
   border: 2px solid var(--ink);
   border-radius: 4px;
   padding: 9px 10px;
-  font: 600 14px var(--fam);
+  font: 600 16px var(--fam);
   max-width: 100%;
+  touch-action: manipulation;
 }
 
 input.sm {
@@ -452,11 +426,11 @@ input.sm {
 
 .chk {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   align-items: center;
-  padding: 10px 0;
+  padding: 9px 0;
   border-bottom: 1px solid var(--ln);
-  font-size: 14px;
+  font-size: 15px;
   cursor: pointer;
 }
 
@@ -464,11 +438,11 @@ input.sm {
   width: 22px;
   height: 22px;
   accent-color: #0B0B0B;
-  cursor: pointer;
+  padding: 0;
 }
 
 .chk.done {
-  opacity: 0.6;
+  opacity: 0.55;
   text-decoration: line-through;
 }
 
@@ -511,7 +485,7 @@ input.sm {
 }
 
 .dh b {
-  font: 900 ultra-condensed 28px var(--fam);
+  font: 900 ultra-condensed 30px var(--fam);
   text-transform: uppercase;
 }
 
@@ -525,69 +499,52 @@ input.sm {
   border-radius: 6px;
   padding: 12px 14px;
   margin-bottom: 12px;
-  font-size: 13.5px;
-  border: 2px solid var(--ink);
-  line-height: 1.4;
-}
-
-.warn.info {
-  background: var(--ink);
-  color: var(--volt);
-}
-
-.warn b {
-  font-weight: 800;
+  font-size: 14px;
 }
 
 /* ==========================================================================
-   TELAS ESPECÍFICAS: ONBOARDING, MODAIS E PRESETS
+   CARDS DE EXTENSÃO (LIMPOS, SEM EMOJIS)
    ========================================================================== */
-.onb {
-  position: fixed;
-  inset: 0;
-  z-index: 5000;
-  background: var(--bg);
-  overflow-y: auto;
-  padding: 24px 18px calc(24px + env(safe-area-inset-bottom));
+.outfit-card {
+  border-left: 6px solid var(--volt);
 }
 
-.onb label, .lb {
-  display: block;
-  font: 700 10px var(--mono);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--mut);
-  margin: 16px 0 6px;
+.time-calc-box {
+  background: #F4F1EA;
+  border: 1.5px dashed var(--ink);
+  border-radius: 4px;
+  padding: 10px 12px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.4;
 }
 
-.onb select, .onb input {
-  width: 100%;
+.time-calc-box b {
+  color: var(--ink);
+  font-family: var(--mono);
 }
 
-/* Pílulas de seleção rápida de destinos em Floripa */
-.preset-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin: 10px 0 14px;
+.sos-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 8px;
 }
 
-.preset-chip {
-  background: #FFF;
-  border: 1.5px solid var(--ink);
-  border-radius: 20px;
-  padding: 6px 12px;
+.sos-btn {
+  background: #FEE2E2;
+  border: 2px solid #B91C1C;
+  color: #991B1B;
+  border-radius: 4px;
+  padding: 10px 8px;
+  text-align: center;
   font: 700 11px var(--mono);
-  cursor: pointer;
-  transition: all 0.15s ease;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  display: block;
+  text-transform: uppercase;
 }
 
-.preset-chip:hover, .preset-chip.active {
-  background: var(--ink);
-  color: var(--volt);
-}
-
-/* Dicas e Acordeon para iniciantes */
 .tip-box {
   background: #F7F5EE;
   border-left: 4px solid var(--ink);
@@ -608,153 +565,65 @@ input.sm {
   color: var(--ink);
 }
 
-/* Checklist pré-pedal estilo card interativo */
-.checklist-card {
-  border-left: 6px solid var(--volt-dark);
-}
-
-/* Botão de Emergência SOS */
-.sos-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-  margin-top: 8px;
-}
-
-.sos-btn {
-  background: #fee2e2;
-  border: 2px solid #b91c1c;
-  color: #991b1b;
-  border-radius: 4px;
-  padding: 10px 8px;
-  text-align: center;
-  font: 700 12px var(--mono);
-  text-decoration: none;
-  display: block;
-}
-
-/* Termômetro de Roupa Pré-Pedal */
-.outfit-card {
-  border-left: 6px solid var(--volt);
-  background: #FFFFFF;
-}
-
-/* Calculadora de Volta e Luz do Sol */
-.time-calc-box {
-  background: #F4F1EA;
-  border: 1.5px dashed var(--ink);
-  border-radius: 4px;
-  padding: 10px 12px;
-  margin-top: 10px;
-  font-size: 13px;
-  line-height: 1.4;
-}
-
-.time-calc-box b {
-  color: var(--ink);
-  font-family: var(--mono);
-}
-
-/* Guia de Calibragem no Posto */
-.tire-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 8px;
-  margin-top: 10px;
-}
-
-.tire-opt {
-  background: #F7F5EE;
-  border: 2px solid var(--ink);
-  border-radius: 4px;
-  padding: 10px;
-}
-
-.tire-opt.selected {
-  background: var(--ink);
-  color: #FFFFFF;
-}
-
-.tire-opt.selected .sub {
-  color: #D4FF3A;
-}
-
-/* Galeria de Opções de Ícones (Identidade Visual) */
-.icon-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin: 12px 0;
-}
-
-.icon-card {
-  border: 2px solid var(--ink);
-  border-radius: 8px;
-  padding: 10px;
-  background: #FFFFFF;
-  text-align: center;
-  cursor: pointer;
-  transition: transform 0.1s ease, box-shadow 0.1s ease;
-}
-
-.icon-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 2px 2px 0 var(--ink);
-}
-
-.icon-card.active {
-  border-color: var(--ac);
-  box-shadow: 0 0 0 2px var(--ac);
-  background: #FFFDF9;
-}
-
-.icon-card img, .icon-card svg {
-  width: 100%;
-  max-width: 90px;
-  height: auto;
-  border-radius: 14px;
-  display: block;
-  margin: 0 auto 6px;
-}
-
-.icon-card .icon-title {
-  font: 700 10px var(--mono);
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-
-/* Header com Logo */
-.app-header {
+.preset-grid {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 2px;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 10px 0 14px;
 }
 
-.header-icon {
-  width: 28px;
-  height: 28px;
-  border-radius: 6px;
-  flex: none;
+.preset-chip {
+  background: #FFF;
+  border: 2px solid var(--ink);
+  border-radius: 4px;
+  padding: 6px 10px;
+  font: 700 11px var(--mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  touch-action: manipulation;
 }
 
-/* Responsividade desktop / tablet */
-@media (min-width: 800px) {
+.preset-chip:hover, .preset-chip.active {
+  background: var(--ink);
+  color: var(--volt);
+}
+
+.onb {
+  position: fixed;
+  inset: 0;
+  z-index: 5000;
+  background: var(--bg);
+  overflow: auto;
+  padding: 24px 18px calc(24px + env(safe-area-inset-bottom));
+}
+
+.onb label, .lb {
+  display: block;
+  font: 700 10px var(--mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--mut);
+  margin: 16px 0 6px;
+}
+
+.onb select, .onb input {
+  width: 100%;
+}
+
+@media(min-width: 800px) {
   .view {
     left: 50%;
     right: auto;
     width: 600px;
     transform: translateX(-50%);
-    box-shadow: 0 0 20px rgba(0,0,0,0.08);
   }
-  
   nav {
     left: 50%;
     right: auto;
     width: 600px;
     transform: translateX(-50%);
   }
-  
   .onb {
     left: 50%;
     right: auto;

@@ -94,13 +94,18 @@ window.FloripaVelo.Views.More = {
     msgEl.textContent = 'Obtendo posição do GPS…';
     navigator.geolocation.getCurrentPosition(
       async pos => {
+        msgEl.textContent = 'Identificando bairro pelo GPS…';
+        const lat = pos.coords.latitude;
+        const lng = pos.coords.longitude;
+        const detectedName = await window.FloripaVelo.Routing.reverseGeocode(lat, lng);
+
         const config = window.FloripaVelo.State.config;
-        config.nome = 'Minha posição atual';
-        config.lat = pos.coords.latitude;
-        config.lng = pos.coords.longitude;
+        config.nome = detectedName;
+        config.lat = lat;
+        config.lng = lng;
 
         window.FloripaVelo.State.save();
-        msgEl.textContent = 'Atualizando previsão e rotas…';
+        msgEl.textContent = `Local detectado: ${detectedName}`;
 
         await window.FloripaVelo.Weather.fetchForecast(config, true);
         await window.FloripaVelo.Routing.recalculateAllDestinations(
@@ -109,11 +114,11 @@ window.FloripaVelo.Views.More = {
         );
         window.FloripaVelo.State.save();
         window.FloripaVelo.App.renderAll();
-        msgEl.textContent = 'Localização atualizada com sucesso!';
       },
       () => {
         msgEl.textContent = 'Permissão de localização negada.';
-      }
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
     );
   },
 
@@ -535,26 +540,10 @@ window.FloripaVelo.Views.More = {
                 <div><span class="sub">Pneu Dianteiro:</span><br><b style="font-size:18px">${calib.psiFrente}</b></div>
                 <div><span class="sub">Pneu Traseiro:</span><br><b style="font-size:18px">${calib.psiTras}</b></div>
               </div>
-              <div class="sub" style="margin-top:6px;font-size:12px">💡 ${calib.dica}</div>
+              <div class="sub" style="margin-top:6px;font-size:12px">${calib.dica}</div>
             </div>
           `;
         })()}
-      </div>
-
-      <!-- Identidade Visual & Ícone Oficial -->
-      <div class="card">
-        <div class="lbl">Identidade Visual & Ícone Oficial</div>
-        <div class="sub">Ícone oficial em verde Volt (#D4FF3A) com duplo chevron aerodinâmico em preto e laranja solar:</div>
-        
-        <div class="f" style="align-items:center;gap:16px;margin-top:12px">
-          <div style="width:72px;height:72px;flex:none;border-radius:18px;overflow:hidden;box-shadow:2px 2px 0 #0B0B0B;border:2px solid #0B0B0B">
-            <img src="assets/icon.svg" alt="Ícone Oficial Floripa Velo" style="width:100%;height:100%;display:block">
-          </div>
-          <div>
-            <div style="font-weight:800;font-family:var(--mono);font-size:14px">Floripa Velo · Endurance Volt</div>
-            <div class="sub" style="margin-top:2px">Configurado como ícone oficial do aplicativo, PWA e favicon do navegador.</div>
-          </div>
-        </div>
       </div>
 
       <!-- Dicas de ouro do iniciante -->
