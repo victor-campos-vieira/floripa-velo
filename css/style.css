@@ -409,6 +409,21 @@ h1 b {
   color: var(--volt);
 }
 
+.btn.wa {
+  background: #25D366;
+  color: #0B0B0B;
+  border-color: #0B0B0B;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-weight: 800;
+}
+
+.btn.wa:hover {
+  background: #20BA5A;
+}
+
 .btn.sm {
   padding: 5px 8px;
   font-size: 10px;
@@ -616,6 +631,111 @@ input.sm {
   font: 700 12px var(--mono);
   text-decoration: none;
   display: block;
+}
+
+/* Termômetro de Roupa Pré-Pedal */
+.outfit-card {
+  border-left: 6px solid var(--volt);
+  background: #FFFFFF;
+}
+
+/* Calculadora de Volta e Luz do Sol */
+.time-calc-box {
+  background: #F4F1EA;
+  border: 1.5px dashed var(--ink);
+  border-radius: 4px;
+  padding: 10px 12px;
+  margin-top: 10px;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.time-calc-box b {
+  color: var(--ink);
+  font-family: var(--mono);
+}
+
+/* Guia de Calibragem no Posto */
+.tire-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.tire-opt {
+  background: #F7F5EE;
+  border: 2px solid var(--ink);
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.tire-opt.selected {
+  background: var(--ink);
+  color: #FFFFFF;
+}
+
+.tire-opt.selected .sub {
+  color: #D4FF3A;
+}
+
+/* Galeria de Opções de Ícones (Identidade Visual) */
+.icon-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 12px 0;
+}
+
+.icon-card {
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  padding: 10px;
+  background: #FFFFFF;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.icon-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 2px 2px 0 var(--ink);
+}
+
+.icon-card.active {
+  border-color: var(--ac);
+  box-shadow: 0 0 0 2px var(--ac);
+  background: #FFFDF9;
+}
+
+.icon-card img, .icon-card svg {
+  width: 100%;
+  max-width: 90px;
+  height: auto;
+  border-radius: 14px;
+  display: block;
+  margin: 0 auto 6px;
+}
+
+.icon-card .icon-title {
+  font: 700 10px var(--mono);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Header com Logo */
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 2px;
+}
+
+.header-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  flex: none;
 }
 
 /* Responsividade desktop / tablet */

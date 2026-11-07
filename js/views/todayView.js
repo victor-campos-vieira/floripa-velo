@@ -1,6 +1,6 @@
 /**
  * ============================================================================
- * FLORIPA VELO - VIEW: HOJE (TELA PRINCIPAL)
+ * FLORIPA VELO - VIEW: HOJE (TELA PRINCIPAL / PRÉ-PEDAL EM 30 SEGUNDOS)
  * ============================================================================
  */
 
@@ -32,8 +32,14 @@ window.FloripaVelo.Views.Today = {
       return;
     }
 
-    let html = `<div class="brand">FLORIPA<b>VELO</b></div>`;
-    html += `<div class="loc">${esc(config.nome)}</div>`;
+    // Header com o novo ícone oficial
+    let html = `
+      <div class="app-header">
+        <img src="assets/favicon.svg" class="header-icon" alt="FV Logo">
+        <div class="brand">FLORIPA<b>VELO</b></div>
+      </div>
+      <div class="loc">${esc(config.nome)}</div>
+    `;
 
     if (!weather || !weather.hs) {
       html += `<div class="hero">Carregando previsão do tempo e vento para Floripa…</div>`;
@@ -111,6 +117,20 @@ window.FloripaVelo.Views.Today = {
       </div>
     `;
 
+    // NOVO: Termômetro de Roupa & Proteção Pré-Pedal
+    const outfit = Config.getOutfitTip(currentHourData.sens, currentHourData.v, currentHourData.uv);
+    html += `
+      <div class="card outfit-card">
+        <div class="lbl">O que vestir agora? (Sensação térmica ${currentHourData.sens}°C)</div>
+        <div style="font-weight:700;font-size:14px;margin-bottom:4px;color:var(--ink)">
+          👕 ${outfit.roupa}
+        </div>
+        <div class="sub">
+          <b>Acessórios recomendados:</b> ${outfit.acessorios}.
+        </div>
+      </div>
+    `;
+
     // Gráfico de vento das próximas 24h
     const next24 = weather.hs.slice(currentIdx, currentIdx + 24);
     const maxWind24 = Math.max(20, ...next24.map(x => x.v));
@@ -134,7 +154,7 @@ window.FloripaVelo.Views.Today = {
       </div>
     `;
 
-    // NOVO: Checklist Pré-Pedal interativo para o iniciante não esquecer nada!
+    // Checklist Pré-Pedal interativo
     const todayChecklist = window.FloripaVelo.State.checklist[todayStr] || {};
     const totalChecks = Config.CHECKLIST_PRE_PEDAL.length;
     const completedChecks = Config.CHECKLIST_PRE_PEDAL.filter(item => todayChecklist[item.id]).length;
@@ -154,15 +174,36 @@ window.FloripaVelo.Views.Today = {
           `;
         }).join('')}
         ${isAllChecked ? `<div class="sub" style="margin-top:8px;color:var(--success);font-weight:700">✓ Tudo pronto! Bom pedal, divirta-se!</div>` : ''}
+        
+        <div style="margin-top:10px;padding-top:8px;border-top:1px dashed var(--ln)">
+          <button class="btn sm" onclick="window.FloripaVelo.App.switchTab('mais')">
+            ⚙️ Ver Guia de Calibragem no Posto (PSI)
+          </button>
+        </div>
       </div>
     `;
 
-    // Sessão sugerida para hoje
+    // Sessão sugerida para hoje com CALCULADORA DE VOLTA & LUZ DO SOL
     const scheduledToday = schedule.find(x => x.data === todayStr);
     const sessionType = scheduledToday ? scheduledToday.tipo : Training.getNextSessionType(completedRides, config.dias);
     const isRecovery = Training.isRecoveryWeek(completedRides);
     const sessionKm = scheduledToday ? scheduledToday.km : Training.calculateKmForType(sessionType, config, isRecovery);
     const hydration = Training.calculateHydrationAndFuel(sessionKm, config.vel, currentHourData.sens);
+
+    // Cálculo da hora de retorno
+    const now = new Date();
+    const durationMinutes = Math.round((sessionKm / config.vel) * 60);
+    const returnTime = new Date(now.getTime() + durationMinutes * 60000);
+    const returnH = pad2(returnTime.getHours());
+    const returnM = pad2(returnTime.getMinutes());
+
+    const sunsetStr = weather.ps[todayStr] || '18:30';
+    const sunsetDate = new Date(`${todayStr}T${sunsetStr}:00`);
+    const diffSunsetMinutes = Math.round((sunsetDate - returnTime) / 60000);
+
+    const whatsappText = encodeURIComponent(
+      `🚴‍♂️ Tô saindo pra pedalar agora (${sessionKm} km)! Minha volta prevista é por volta das ${returnH}h${returnM}. Qualquer coisa me liga!`
+    );
 
     html += `
       <div class="card">
@@ -173,10 +214,24 @@ window.FloripaVelo.Views.Today = {
         <div class="big">${sessionKm} km</div>
         <div class="sub" style="margin:2px 0 6px">
           <span class="tag" style="margin:0">${Config.TIPOS_TREINO[sessionType].nome}</span>
-          ≈ ${formatMinutes(hydration.hours * 60)} pedalando a ${config.vel} km/h
+          ≈ ${formatMinutes(durationMinutes)} pedalando a ${config.vel} km/h
         </div>
         <div class="sub">${Config.TIPOS_TREINO[sessionType].descricao}</div>
-        <button class="btn p full" style="margin-top:12px" onclick="window.FloripaVelo.App.switchTab('plano')">
+
+        <!-- Calculadora de Volta e Luz do Sol -->
+        <div class="time-calc-box">
+          ⏱️ <b>Se sair agora:</b> Volta estimada às <b>${returnH}h${returnM}</b>
+          ${diffSunsetMinutes > 0
+            ? `(ainda com <b>${formatMinutes(diffSunsetMinutes)} de luz natural</b> antes do pôr do sol)`
+            : `<br><span style="color:#b91c1c;font-weight:700">⚠️ Volta após o pôr do sol: luzes e refletivos obrigatórios!</span>`}
+        </div>
+
+        <!-- Botão WhatsApp: Avisar que está saindo -->
+        <a href="https://api.whatsapp.com/send?text=${whatsappText}" target="_blank" class="btn wa full" style="margin-top:10px;text-decoration:none">
+          💬 Avisar no WhatsApp (Tô saindo)
+        </a>
+
+        <button class="btn p full" style="margin-top:8px" onclick="window.FloripaVelo.App.switchTab('plano')">
           Registrar este pedal
         </button>
       </div>
@@ -229,17 +284,18 @@ window.FloripaVelo.Views.Today = {
       </div>
     `;
 
-    // Hidratação & Reposição Energética
+    // Hidratação & Lanche Rápido de 20 minutos
     html += `
       <div class="card">
-        <div class="lbl">Hidratação & Alimentação para esta sessão</div>
+        <div class="lbl">Hidratação & Alimentação Pré-Pedal</div>
         <div class="mini" style="border:0;padding:0;margin-bottom:8px">
           <div><b style="color:var(--ink)">~${hydration.waterMl}</b>ml de água</div>
           <div><b style="color:var(--ink)">${hydration.gelCount}</b>gel(s) ou fruta</div>
         </div>
         <div class="sub">${hydration.text}</div>
-        <div class="sub" style="margin-top:8px;font-size:11.5px">
-          💡 <i>Dica de ouro:</i> Beba um gole de água a cada 15 a 20 minutos, mesmo sem sede. Quando a sede aparece, você já perdeu cerca de 2% do rendimento.
+        
+        <div class="sub" style="margin-top:10px;padding-top:8px;border-top:1px dashed var(--ln);font-size:12.5px">
+          🍌 <b>Lanche 20 a 30 min antes de sair:</b> 1 banana com mel/aveia ou 1 fatia de pão com geleia. Evite frituras, queijos gordurosos e excesso de leite agora para não pesar no estômago.
         </div>
       </div>
     `;

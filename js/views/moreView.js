@@ -10,6 +10,27 @@ window.FloripaVelo.Views = window.FloripaVelo.Views || {};
 window.FloripaVelo.Views.More = {
   searchResults: [],
   searchFeedback: 'Pesquise por bairro, praia ou ponto de referência em Floripa.',
+  selectedTireType: 'mtb',
+  activeIcon: 'option-1',
+
+  selectTireType(type) {
+    this.selectedTireType = type;
+    this.render();
+  },
+
+  selectAppIcon(optionName) {
+    this.activeIcon = optionName;
+    const favicon = window.FloripaVelo.Utils.$("link[rel*='icon']");
+    if (favicon) {
+      favicon.href = `assets/icon-${optionName}.svg`;
+    }
+    const headerIcon = window.FloripaVelo.Utils.$('.header-icon');
+    if (headerIcon) {
+      headerIcon.src = `assets/icon-${optionName}.svg`;
+    }
+    this.render();
+    window.FloripaVelo.Views.Today.render();
+  },
 
   // Atualizar dados de perfil
   updateConfig(key, value) {
@@ -487,6 +508,59 @@ window.FloripaVelo.Views.More = {
         <div class="f" style="margin-top:10px">
           <button class="btn" onclick="window.FloripaVelo.Views.More.addBikeItem()">+ Nova Manutenção</button>
         </div>
+      </div>
+
+      <!-- Guia de Calibragem no Posto -->
+      <div class="card">
+        <div class="lbl">Calibrador de Pneus no Posto (Quantas Libras?)</div>
+        <div class="sub">Selecione o tipo de pneu da sua bicicleta para ver a pressão recomendada:</div>
+        <div class="f" style="margin-top:8px">
+          <button class="btn ${this.selectedTireType === 'mtb' ? 'k' : ''}" onclick="window.FloripaVelo.Views.More.selectTireType('mtb')">
+            MTB (Largo)
+          </button>
+          <button class="btn ${this.selectedTireType === 'urbana' ? 'k' : ''}" onclick="window.FloripaVelo.Views.More.selectTireType('urbana')">
+            Urbana / Híbrida
+          </button>
+          <button class="btn ${this.selectedTireType === 'speed' ? 'k' : ''}" onclick="window.FloripaVelo.Views.More.selectTireType('speed')">
+            Speed (Fino)
+          </button>
+        </div>
+
+        ${(() => {
+          const calib = Config.CALIBRADOR_PNEUS[this.selectedTireType];
+          return `
+            <div class="time-calc-box" style="margin-top:10px;background:#FFF">
+              <div style="font-weight:700;font-size:14px;margin-bottom:6px">${calib.nome}</div>
+              <div class="f" style="gap:16px;margin:6px 0">
+                <div><span class="sub">Pneu Dianteiro:</span><br><b style="font-size:18px">${calib.psiFrente}</b></div>
+                <div><span class="sub">Pneu Traseiro:</span><br><b style="font-size:18px">${calib.psiTras}</b></div>
+              </div>
+              <div class="sub" style="margin-top:6px;font-size:12px">💡 ${calib.dica}</div>
+            </div>
+          `;
+        })()}
+      </div>
+
+      <!-- Identidade Visual & Opções de Ícone -->
+      <div class="card">
+        <div class="lbl">Identidade Visual & Ícone Oficial (Estilo Endurance)</div>
+        <div class="sub">Criamos 3 conceitos com a identidade esportiva e alto contraste do Floripa Velo. Toque para testar:</div>
+        
+        <div class="icon-grid">
+          <div class="icon-card ${this.activeIcon === 'option-1' ? 'active' : ''}" onclick="window.FloripaVelo.Views.More.selectAppIcon('option-1')">
+            <img src="assets/icon-option-1.svg" alt="Opção 1">
+            <div class="icon-title">Opção 1<br><span style="color:var(--mut)">Aero & Vento</span></div>
+          </div>
+          <div class="icon-card ${this.activeIcon === 'option-2' ? 'active' : ''}" onclick="window.FloripaVelo.Views.More.selectAppIcon('option-2')">
+            <img src="assets/icon-option-2.svg" alt="Opção 2">
+            <div class="icon-title">Opção 2<br><span style="color:var(--mut)">Ponte & Roda</span></div>
+          </div>
+          <div class="icon-card ${this.activeIcon === 'option-3' ? 'active' : ''}" onclick="window.FloripaVelo.Views.More.selectAppIcon('option-3')">
+            <img src="assets/icon-option-3.svg" alt="Opção 3">
+            <div class="icon-title">Opção 3<br><span style="color:var(--mut)">Monograma FV</span></div>
+          </div>
+        </div>
+        <div class="sub" style="font-size:11.5px">A Opção 1 está definida como o ícone principal e PWA do app.</div>
       </div>
 
       <!-- Dicas de ouro do iniciante -->

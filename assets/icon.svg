@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <clipPath id="squircle">
+      <rect x="0" y="0" width="512" height="512" rx="112" ry="112" />
+    </clipPath>
+    <linearGradient id="aeroGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E5FF66" />
+      <stop offset="100%" stop-color="#B8E600" />
+    </linearGradient>
+  </defs>
+
+  <!-- Fundo Sólido Ink -->
+  <rect width="512" height="512" rx="112" fill="#0B0B0B" />
+
+  <!-- Grid Sutil de Velocidade / Textura Endurance -->
+  <g opacity="0.12" stroke="#FFFFFF" stroke-width="2">
+    <line x1="56" y1="120" x2="456" y2="120" stroke-dasharray="8 12" />
+    <line x1="56" y1="256" x2="456" y2="256" stroke-dasharray="8 12" />
+    <line x1="56" y1="392" x2="456" y2="392" stroke-dasharray="8 12" />
+  </g>
+
+  <!-- Engrenagem / Coroa de Ciclismo (Arco Geométrico) -->
+  <circle cx="256" cy="256" r="158" fill="none" stroke="#262624" stroke-width="22" stroke-dasharray="24 18" />
+
+  <!-- Vetor Aerodinâmico / Seta do Vento (Velo + Vento) em Volt Neon -->
+  <path d="M148 336 L256 148 L364 336 L256 284 Z" fill="url(#aeroGrad)" />
+
+  <!-- Linha Central de Velocidade em Laranja Neon de Segurança -->
+  <path d="M256 148 L256 284" stroke="#FF4D00" stroke-width="12" stroke-linecap="round" />
+
+  <!-- Dente de Coroa / Apex de Precisão -->
+  <circle cx="256" cy="148" r="14" fill="#FF4D00" />
+
+  <!-- Marca Tipográfica Discreta na Base -->
+  <text x="256" y="440" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="28" font-weight="800" letter-spacing="8" fill="#ECE8DF">FLORIPA</text>
+</svg>

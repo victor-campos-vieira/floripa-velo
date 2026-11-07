@@ -41,7 +41,6 @@ window.FloripaVelo.Config = {
   ],
 
   // Destinos populares e icônicos de Floripa pré-catalogados
-  // Facilita para quem começou agora e não sabe as distâncias nem onde ir!
   PRESET_DESTINATIONS: [
     {
       id: 'preset_bm_norte',
@@ -131,6 +130,66 @@ window.FloripaVelo.Config = {
     leve: {
       nome: 'Leve (Recuperação)',
       descricao: 'Giro solto em marchas leves, esforço 3 a 4 de 10. Serve para soltar as pernas, bombear sangue e criar o hábito sem cansar.'
+    }
+  },
+
+  // Termômetro de Roupas & Equipamentos pré-pedal
+  getOutfitTip(apparentTemp, windSpeed, uvIndex) {
+    let roupa = '';
+    let acessorios = [];
+
+    if (apparentTemp < 17) {
+      roupa = 'Manga longa ou manguito + corta-vento leve (o vento contra esfria o peito rápido).';
+    } else if (apparentTemp <= 23) {
+      roupa = 'Camiseta respirável; se estiver ventando na orla, leve um corta-vento compacto no bolso.';
+    } else if (apparentTemp <= 28) {
+      roupa = 'Bermuda leve e camiseta de tecido seco (dry-fit). Evite algodão pesado.';
+    } else {
+      roupa = 'Roupa super leve e ventilada. Pedale em ritmo suave para não superaquecer.';
+    }
+
+    if (uvIndex >= 3) {
+      acessorios.push('protetor solar no rosto/braços');
+    }
+    if (uvIndex >= 5 || apparentTemp >= 22) {
+      acessorios.push('óculos escuros (protege do sol e de insetos no olho)');
+    }
+    if (windSpeed >= 20) {
+      acessorios.push('atenção ao peito no vento contra');
+    }
+
+    return {
+      roupa,
+      acessorios: acessorios.length ? acessorios.join(', ') : 'nenhum acessório extra necessário'
+    };
+  },
+
+  // Lanches rápidos pré-pedal (20 a 30 min antes de sair)
+  LANCHES_PRE_PEDAL: [
+    { nome: '1 banana com um fio de mel e aveia (energia de absorção rápida)' },
+    { nome: '1 ou 2 fatias de pão com geleia ou requeijão leve' },
+    { nome: 'Meio copo de suco de uva integral ou água de coco' }
+  ],
+
+  // Guia de Calibragem Rápida no Posto de Gasolina
+  CALIBRADOR_PNEUS: {
+    mtb: {
+      nome: 'Mountain Bike (Pneu largo aro 29 / 2.0 a 2.3")',
+      psiFrente: '28 a 32 PSI',
+      psiTras: '32 a 36 PSI',
+      dica: 'Pneu de MTB não precisa de muita pressão. Pressão alta faz a bike pular e escorregar no asfalto.'
+    },
+    urbana: {
+      nome: 'Urbana / Híbrida (Aro 700x32 a 38c ou aro 26)',
+      psiFrente: '45 a 50 PSI',
+      psiTras: '50 a 55 PSI',
+      dica: 'Excelente equilíbrio entre conforto e rolagem suave na ciclovia.'
+    },
+    speed: {
+      nome: 'Speed / Estrada (Pneu fino 700x25 a 28c)',
+      psiFrente: '80 a 85 PSI',
+      psiTras: '85 a 95 PSI',
+      dica: 'Atenção: precisa de adaptador de bico fino (válvula Presta) para o calibrador do posto.'
     }
   },
 
