@@ -1,6 +1,7 @@
 /**
  * ============================================================================
- * FLORIPA VELO - VIEW: HOJE (TELA PRINCIPAL / PRÉ-PEDAL EM 30 SEGUNDOS)
+ * FLORIPA VELO - VIEW: HOJE (TELA PRINCIPAL / COCKPIT PRÉ-PEDAL EM 15 SEGUNDOS)
+ * Minimalista, sem excesso de texto, sem emojis, foco em dados e decisão rápida.
  * ============================================================================
  */
 
@@ -8,16 +9,6 @@ window.FloripaVelo = window.FloripaVelo || {};
 window.FloripaVelo.Views = window.FloripaVelo.Views || {};
 
 window.FloripaVelo.Views.Today = {
-  // Alterna item do checklist diário
-  toggleChecklist(itemId) {
-    const today = window.FloripaVelo.Utils.todayDateString();
-    const checklist = window.FloripaVelo.State.checklist;
-    if (!checklist[today]) checklist[today] = {};
-    checklist[today][itemId] = !checklist[today][itemId];
-    window.FloripaVelo.State.save();
-    this.render();
-  },
-
   render() {
     const el = window.FloripaVelo.Utils.$('#v-hoje');
     const { config, weather, schedule, completedRides, destinations, bike } = window.FloripaVelo.State;
@@ -32,14 +23,14 @@ window.FloripaVelo.Views.Today = {
       return;
     }
 
-    // Topo oficial limpo (tipografia pura brutalista suíça)
+    // Topo oficial da marca
     let html = `
       <div class="brand">FLORIPA<b>VELO</b></div>
       <div class="loc">${esc(config.nome)}</div>
     `;
 
     if (!weather || !weather.hs) {
-      html += `<div class="hero">Carregando previsão do tempo e vento para Floripa…</div>`;
+      html += `<div class="hero">Carregando vento e previsão…</div>`;
       el.innerHTML = html;
       return;
     }
@@ -55,31 +46,30 @@ window.FloripaVelo.Views.Today = {
     // Veredito geral com base nos fatores (ignora UV para o veredito de segurança)
     const rankMap = { bom: 0, ok: 1, ruim: 2 };
     const overallVerdict = factors
-      .filter((_, idx) => idx !== 4) // exclui UV do bloqueio
+      .filter((_, idx) => idx !== 4)
       .reduce((max, f) => (rankMap[f[0]] > rankMap[max] ? f[0] : max), 'bom');
 
     const verdictTitles = {
-      bom: 'Sim, bora pedalar!',
-      ok: 'Dá para ir, com atenção',
-      ruim: 'Melhor evitar agora'
+      bom: 'Sim, bora',
+      ok: 'Dá, com atenção',
+      ruim: 'Melhor não agora'
     };
 
     if (weather.velha) {
-      html += `<div class="warn">Sem conexão com a internet: exibindo a última previsão salva.</div>`;
+      html += `<div class="warn">Modo offline: última previsão salva.</div>`;
     }
 
-    // Alerta contextual de Vento Sul em Floripa
+    // Alerta contextual de Vento Sul em Floripa (somente se vento forte)
     const isVentoSul = currentHourData.d >= 135 && currentHourData.d <= 225;
-    if (isVentoSul && currentHourData.v >= 18) {
+    if (isVentoSul && currentHourData.v >= 20) {
       html += `
         <div class="warn">
-          <b>Alerta Vento Sul em Floripa (${currentHourData.v} km/h):</b>
-          O vento sul entra de frente em pontes, na Beira-Mar e no Sul da Ilha. Tende a derrubar a temperatura e trazer rajadas fortes. Proteja o peito com corta-vento e redobre a atenção na travessia das pontes.
+          <b>Vento Sul forte (${currentHourData.v} km/h):</b> rajadas frias em pontes e orlas. Use corta-vento.
         </div>
       `;
     }
 
-    // Hero com Veredito, Vento e Bússola
+    // 1. HERO CARD: Veredito, Vento e Bússola
     const windDirName = window.FloripaVelo.Utils.getWindDirectionName(currentHourData.d);
     html += `
       <div class="hero">
@@ -114,21 +104,7 @@ window.FloripaVelo.Views.Today = {
       </div>
     `;
 
-    // Termômetro de Roupa & Proteção Pré-Pedal
-    const outfit = Config.getOutfitTip(currentHourData.sens, currentHourData.v, currentHourData.uv);
-    html += `
-      <div class="card outfit-card">
-        <div class="lbl">Vestuário sugerido · Sensação ${currentHourData.sens}°C</div>
-        <div style="font-weight:700;font-size:14px;margin-bottom:4px;color:var(--ink)">
-          ${esc(outfit.roupa)}
-        </div>
-        <div class="sub">
-          Acessórios: ${esc(outfit.acessorios)}.
-        </div>
-      </div>
-    `;
-
-    // Gráfico de vento das próximas 24h
+    // 2. CARD: Vento nas próximas 24 horas (Gráfico horário compacto)
     const next24 = weather.hs.slice(currentIdx, currentIdx + 24);
     const maxWind24 = Math.max(20, ...next24.map(x => x.v));
     html += `
@@ -143,136 +119,83 @@ window.FloripaVelo.Views.Today = {
             </div>
           `).join('')}
         </div>
-        <div class="sub" style="margin-top:8px">
-          <span style="color:#B8E600">■</span> Bom &nbsp;
+        <div class="sub" style="margin-top:8px;font-size:11px">
+          <span style="color:var(--volt)">■</span> Bom &nbsp;
           <span style="color:var(--ac)">■</span> Atenção &nbsp;
-          <span style="color:#111">■</span> Evite (considera vento, rajada, chuva e calor)
+          <span style="color:var(--ink)">■</span> Evite
         </div>
       </div>
     `;
 
-    // Checklist Pré-Pedal interativo
-    const todayChecklist = window.FloripaVelo.State.checklist[todayStr] || {};
-    const totalChecks = Config.CHECKLIST_PRE_PEDAL.length;
-    const completedChecks = Config.CHECKLIST_PRE_PEDAL.filter(item => todayChecklist[item.id]).length;
-    const isAllChecked = completedChecks === totalChecks;
-
-    html += `
-      <div class="card checklist-card">
-        <div class="lbl">Checklist Pré-Pedal (${completedChecks}/${totalChecks})</div>
-        <div class="sub" style="margin-bottom:8px">10 segundos antes de sair de casa:</div>
-        ${Config.CHECKLIST_PRE_PEDAL.map(item => {
-          const isDone = !!todayChecklist[item.id];
-          return `
-            <label class="chk ${isDone ? 'done' : ''}">
-              <input type="checkbox" ${isDone ? 'checked' : ''} onchange="window.FloripaVelo.Views.Today.toggleChecklist('${item.id}')">
-              <span>${item.texto}</span>
-            </label>
-          `;
-        }).join('')}
-        ${isAllChecked ? `<div class="sub" style="margin-top:8px;color:var(--success);font-weight:700">Tudo pronto para a saída.</div>` : ''}
-        
-        <div style="margin-top:10px;padding-top:8px;border-top:1px dashed var(--ln)">
-          <button class="btn sm" onclick="window.FloripaVelo.App.switchTab('mais')">
-            Calibragem recomendada (PSI)
-          </button>
-        </div>
-      </div>
-    `;
-
-    // Sessão sugerida para hoje com CALCULADORA DE VOLTA & LUZ DO SOL
+    // 3. CARD: Sessão de Hoje (com retorno estimado conciso)
     const scheduledToday = schedule.find(x => x.data === todayStr);
     const sessionType = scheduledToday ? scheduledToday.tipo : Training.getNextSessionType(completedRides, config.dias);
     const isRecovery = Training.isRecoveryWeek(completedRides);
     const sessionKm = scheduledToday ? scheduledToday.km : Training.calculateKmForType(sessionType, config, isRecovery);
     const hydration = Training.calculateHydrationAndFuel(sessionKm, config.vel, currentHourData.sens);
 
-    // Cálculo da hora de retorno
     const now = new Date();
     const durationMinutes = Math.round((sessionKm / config.vel) * 60);
     const returnTime = new Date(now.getTime() + durationMinutes * 60000);
     const returnH = pad2(returnTime.getHours());
     const returnM = pad2(returnTime.getMinutes());
-
     const sunsetStr = weather.ps[todayStr] || '18:30';
     const sunsetDate = new Date(`${todayStr}T${sunsetStr}:00`);
     const diffSunsetMinutes = Math.round((sunsetDate - returnTime) / 60000);
 
-    const whatsappText = encodeURIComponent(
-      `Tô saindo pra pedalar agora (${sessionKm} km). Minha volta prevista é por volta das ${returnH}h${returnM}.`
-    );
-
     html += `
       <div class="card">
         <div class="lbl">
-          ${scheduledToday ? 'Sua sessão agendada para hoje' : 'Sessão sugerida para hoje'}
-          ${isRecovery ? ' · semana de recuperação' : ''}
+          ${scheduledToday ? 'Sua sessão agendada' : 'Sessão sugerida'}
+          ${isRecovery ? ' · recuperação' : ''}
         </div>
         <div class="big">${sessionKm} km</div>
-        <div class="sub" style="margin:2px 0 6px">
+        <div class="sub" style="margin:2px 0 10px">
           <span class="tag" style="margin:0">${Config.TIPOS_TREINO[sessionType].nome}</span>
-          ≈ ${formatMinutes(durationMinutes)} pedalando a ${config.vel} km/h
-        </div>
-        <div class="sub">${Config.TIPOS_TREINO[sessionType].descricao}</div>
-
-        <!-- Calculadora de Volta e Luz do Sol -->
-        <div class="time-calc-box">
-          <b>Saída agora:</b> retorno estimado às <b>${returnH}h${returnM}</b>
-          ${diffSunsetMinutes > 0
-            ? `(luz natural até ${sunsetStr})`
-            : `<br><span style="color:var(--ac);font-weight:700">Retorno após o pôr do sol: use iluminação e refletivos.</span>`}
+          ≈ ${formatMinutes(durationMinutes)} a ${config.vel} km/h · Volta às ${returnH}h${returnM}${diffSunsetMinutes > 0 ? '' : ' (noite)'}
         </div>
 
-        <!-- Botão WhatsApp -->
-        <a href="https://api.whatsapp.com/send?text=${whatsappText}" target="_blank" class="btn wa full" style="margin-top:10px;text-decoration:none">
-          Avisar no WhatsApp
-        </a>
-
-        <button class="btn p full" style="margin-top:8px" onclick="window.FloripaVelo.App.switchTab('plano')">
-          Registrar este pedal
+        <button class="btn p full" onclick="window.FloripaVelo.App.switchTab('plano')">
+          Registrar pedal
         </button>
       </div>
     `;
 
-    // Para onde ir hoje (Recomendação baseada no vento)
+    // 4. CARD: Para onde ir (Estratégia do vento e destinos)
     const isLightWind = currentHourData.v < 8;
     html += `
       <div class="card">
-        <div class="lbl">Estratégia de Vento em Floripa</div>
+        <div class="lbl">Para onde ir</div>
         ${isLightWind ? `
           <div class="go">Vento fraco.<br>Vá para <b>qualquer lado</b>.</div>
-          <div class="sub" style="margin-top:8px">O ar está calmo na ilha, excelente para pedalar sem resistência.</div>
         ` : `
           <div class="go">Ida rumo ao <b>${windDirName}</b>.<br>Volta com vento a favor.</div>
-          <div class="sub" style="margin-top:8px">
-            Assim você enfrenta o vento contra descansado e volta cansado com ele te empurrando.
-            ${currentHourData.v >= 25 ? ' <b>Atenção: vento forte. Considere um trajeto mais curto.</b>' : ''}
+          <div class="sub" style="margin-top:6px">
+            Enfrente o vento no começo e volte com ele te empurrando.
+            ${currentHourData.v >= 25 ? ' <b>Vento forte: reduza a distância.</b>' : ''}
           </div>
         `}
 
-        <div class="lbl" style="margin-top:16px">Seus destinos, do melhor ao pior com este vento:</div>
         ${destinations.length === 0 ? `
-          <div class="sub" style="margin-top:6px">Nenhum destino cadastrado ainda.</div>
-          <div class="f" style="margin-top:10px">
-            <button class="btn p" onclick="window.FloripaVelo.App.switchTab('mais')">+ Adicionar lugares em Floripa</button>
-          </div>
+          <div class="sub" style="margin-top:10px">Adicione lugares na aba <b>Mais</b> para ver o melhor trajeto neste vento.</div>
         ` : `
-          ${Routing.rankDestinations(destinations, currentHourData, sessionKm, config).slice(0, 5).map(item => {
-            const tagText = ['Ida contra o vento', 'Vento de lado', 'Ida a favor (volta mais dura)'][item.grade];
+          <div class="lbl" style="margin-top:14px">Lugares ordenados por este vento:</div>
+          ${Routing.rankDestinations(destinations, currentHourData, sessionKm, config).slice(0, 4).map(item => {
+            const tagText = ['Ida contra o vento', 'Vento de lado', 'Ida a favor (volta dura)'][item.grade];
             const fitText = Math.abs(item.totalKm - sessionKm) <= sessionKm * 0.25
               ? 'cabe na sessão'
               : item.totalKm < sessionKm
-                ? `menor que a sessão de ${sessionKm} km`
-                : `maior que a sessão: vá só até a metade e volte`;
+                ? `menor que a sessão`
+                : `maior (retorne antes)`;
 
             return `
               <div class="pt">
-                <div style="font-weight:700">${esc(item.destination.nome)}</div>
+                <b>${esc(item.destination.nome)}</b>
                 ${!isLightWind ? `<span class="tag ${item.grade > 1 ? 'o' : ''}">${tagText}</span>` : ''}
-                <div class="sub" style="margin-top:4px">
-                  ${item.idaKm} km de ida ${item.destination.rota && item.destination.rota.up ? `· subida ~${item.destination.rota.up}m` : ''}
-                  · Ida e volta ≈ ${Math.round(item.totalKm)} km (${fitText})
-                  ${item.align.isRealRoute && !isLightWind ? `· vento de frente em ${Math.round(item.align.fraction * 100)}% da ida` : ''}
+                <div class="sub">
+                  ${item.idaKm} km ida ${item.destination.rota && item.destination.rota.up ? `· subida ~${item.destination.rota.up}m` : ''}
+                  · Total ≈ ${Math.round(item.totalKm)} km (${fitText})
+                  ${item.align.isRealRoute && !isLightWind ? `· contra em ${Math.round(item.align.fraction * 100)}% da ida` : ''}
                 </div>
               </div>
             `;
@@ -281,47 +204,28 @@ window.FloripaVelo.Views.Today = {
       </div>
     `;
 
-    // Hidratação & Lanche Rápido de 20 minutos
+    // 5. CARD: Água e reposição (sucinto e prático)
     html += `
       <div class="card">
-        <div class="lbl">Hidratação & Alimentação Pré-Pedal</div>
-        <div class="mini" style="border:0;padding:0;margin-bottom:8px">
-          <div><b style="color:var(--ink)">~${hydration.waterMl}</b>ml de água</div>
-          <div><b style="color:var(--ink)">${hydration.gelCount}</b>gel(s) ou fruta</div>
+        <div class="lbl">Hidratação & Reposição</div>
+        <div class="mini" style="border:0;padding:0;margin-bottom:6px">
+          <div><b>~${hydration.waterMl}</b> ml de água</div>
+          <div><b>${hydration.gelCount}</b> gel(s) ou fruta</div>
         </div>
         <div class="sub">${hydration.text}</div>
-        
-        <div class="sub" style="margin-top:10px;padding-top:8px;border-top:1px dashed var(--ln);font-size:12.5px">
-          <b>Lanche pré-pedal (20 a 30 min antes):</b> 1 banana com aveia ou 1 fatia de pão com geleia. Evite frituras e leite para não sobrecarregar a digestão.
-        </div>
       </div>
     `;
 
-    // Alerta de manutenção da bike
+    // 6. Alerta de manutenção da bike (apenas se vencido)
     const totalBikeKm = window.FloripaVelo.State.getTotalBikeKm();
     const expiredMaintenance = bike.itens.filter(item => item.ult != null && totalBikeKm - item.ult >= item.cada);
     if (expiredMaintenance.length > 0) {
       html += `
         <div class="warn">
-          <b>Manutenção da Bike:</b> ${expiredMaintenance.map(x => esc(x.nome)).join(', ')} (passou da quilometragem recomendada).
-          Confira os detalhes na aba <b>Mais</b>.
+          <b>Bike:</b> ${expiredMaintenance.map(x => esc(x.nome)).join(', ')} (passou da hora). Veja na aba Mais.
         </div>
       `;
     }
-
-    // Contatos de emergência
-    html += `
-      <div class="card" style="border-left:6px solid #b91c1c">
-        <div class="lbl" style="color:#b91c1c">Contatos de Emergência</div>
-        <div class="sub">Em caso de acidente ou necessidade de apoio:</div>
-        <div class="sos-row">
-          <a class="sos-btn" href="tel:192">SAMU 192</a>
-          <a class="sos-btn" href="tel:193">BOMBEIROS 193</a>
-          <a class="sos-btn" href="tel:153">GUARDA 153</a>
-          <a class="sos-btn" href="tel:190">PM 190</a>
-        </div>
-      </div>
-    `;
 
     el.innerHTML = html;
   }
