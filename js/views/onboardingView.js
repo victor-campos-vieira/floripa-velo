@@ -88,8 +88,8 @@ window.FloripaVelo.Views.Onboarding = {
     const daysPerWeek = +window.FloripaVelo.Utils.$('#oDias').value;
     const goalKm = +window.FloripaVelo.Utils.$('#oMeta').value;
 
-    // Se nunca pedalou, começa com 5 km base
-    const baseLong = maxKmValue === 0 ? 5 : Math.max(5, Math.round(maxKmValue * 0.7));
+    // Se nunca pedalou, começa com 5 km base, senão usa a distância escolhida
+    const baseLong = maxKmValue === 0 ? 5 : Math.max(5, maxKmValue);
 
     window.FloripaVelo.State.config = {
       nome: this.selectedOrigin.nome,

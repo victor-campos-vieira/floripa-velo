@@ -150,9 +150,12 @@ window.FloripaVelo.Views.Today = {
           ${isRecovery ? ' · recuperação' : ''}
         </div>
         <div class="big">${sessionKm} km</div>
-        <div class="sub" style="margin:2px 0 10px">
+        <div class="sub" style="margin:2px 0 6px">
           <span class="tag" style="margin:0">${Config.TIPOS_TREINO[sessionType].nome}</span>
           ≈ ${formatMinutes(durationMinutes)} a ${config.vel} km/h · Volta às ${returnH}h${returnM}${diffSunsetMinutes > 0 ? '' : ' (noite)'}
+        </div>
+        <div class="sub" style="font-size:11.5px;color:var(--mut);margin-bottom:12px">
+          Base do seu perfil: ${config.L} km (${Config.TIPOS_TREINO[sessionType].nome.toLowerCase()}) · Ajustável na aba Mais
         </div>
 
         <button class="btn p full" onclick="window.FloripaVelo.App.switchTab('plano')">
@@ -208,9 +211,15 @@ window.FloripaVelo.Views.Today = {
     html += `
       <div class="card">
         <div class="lbl">Hidratação & Reposição</div>
-        <div class="mini" style="border:0;padding:0;margin-bottom:6px">
-          <div><b>~${hydration.waterMl}</b> ml de água</div>
-          <div><b>${hydration.gelCount}</b> gel(s) ou fruta</div>
+        <div class="mini" style="margin:6px 0 10px">
+          <div>
+            <b>~${hydration.waterMl}</b>
+            ml de água
+          </div>
+          <div>
+            <b>${hydration.gelCount > 0 ? hydration.gelCount : '0'}</b>
+            ${hydration.gelCount === 1 ? 'gel ou fruta' : 'géis ou fruta'}
+          </div>
         </div>
         <div class="sub">${hydration.text}</div>
       </div>
