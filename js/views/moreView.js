@@ -546,18 +546,27 @@ window.FloripaVelo.Views.More = {
         })()}
       </div>
 
-      <!-- Dicas de ouro do iniciante -->
+      <!-- Dicas essenciais do iniciante -->
       <div class="card">
-        <div class="lbl">Dicas de Ouro para Iniciantes</div>
-        <div class="sub" style="margin-bottom:8px">
-          O que a maioria das pessoas só aprende depois de sofrer na prática:
-        </div>
+        <div class="lbl">Dicas Essenciais</div>
         ${Config.DICAS_INICIANTE.map(dica => `
           <div class="tip-box">
             <b>${dica.titulo}</b>
             <div>${dica.texto}</div>
           </div>
         `).join('')}
+      </div>
+
+      <!-- Contatos de emergência -->
+      <div class="card" style="border-left:6px solid #B91C1C">
+        <div class="lbl" style="color:#B91C1C">Contatos de Emergência</div>
+        <div class="sub">Socorro médico e apoio operacional em Florianópolis:</div>
+        <div class="sos-row">
+          <a class="sos-btn" href="tel:192">SAMU 192</a>
+          <a class="sos-btn" href="tel:193">BOMBEIROS 193</a>
+          <a class="sos-btn" href="tel:153">GUARDA 153</a>
+          <a class="sos-btn" href="tel:190">PM 190</a>
+        </div>
       </div>
 
       <!-- Backup e dados -->

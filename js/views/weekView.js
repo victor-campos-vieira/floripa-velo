@@ -253,7 +253,7 @@ window.FloripaVelo.Views.Week = {
         <button class="btn k" onclick="window.FloripaVelo.Views.Week.exportAllSessionsIcs()">Todas no Calendário (.ics)</button>
       </div>
       <div class="sub" style="margin-top:10px">
-        O botão Calendário baixa um arquivo <code>.ics</code> que você pode abrir no iPhone (Apple Calendário) ou Google Agenda com lembrete automático 1h antes.
+        Exporta arquivo <code>.ics</code> para iPhone ou Google Agenda com lembrete 1h antes.
       </div>
     `;
 

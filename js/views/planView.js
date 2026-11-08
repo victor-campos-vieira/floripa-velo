@@ -97,11 +97,11 @@ window.FloripaVelo.Views.Plan = {
     const progressPercent = Math.min(100, Math.round((config.L / config.meta) * 100));
 
     // Estimativa de semanas até a meta
-    let goalEstimateText = 'Você já alcançou a sua meta de distância! Agora o foco é manter a consistência e o prazer de pedalar.';
+    let goalEstimateText = 'Meta alcançada! Mantenha a consistência.';
     if (config.L < config.meta) {
       const neededWeeks = Math.ceil(Math.log(config.meta / config.L) / Math.log(1.08) * 1.2);
       const estWeeks = Math.max(1, Math.ceil(neededWeeks / Math.max(1, config.dias)));
-      goalEstimateText = `No ritmo atual (aumentando gradualmente ~5-8% nos longões), você alcançará sua meta de ${config.meta} km em cerca de ${estWeeks} semanas.`;
+      goalEstimateText = `Meta de ${config.meta} km em cerca de ${estWeeks} semanas (+5–8% por longão).`;
     }
 
     // Cálculo das últimas 6 semanas de quilometragem
@@ -141,16 +141,11 @@ window.FloripaVelo.Views.Plan = {
         ${Training.getWeeklyTypes(config.dias).map(t => `${Config.TIPOS_TREINO[t].nome} ${Training.calculateKmForType(t, config, isRecovery)} km`).join(' · ')}.
       </div>
 
-      <!-- Explicação do método -->
+      <!-- Estrutura do método -->
       <div class="card" style="margin-top:12px">
-        <div class="lbl">Como funciona a evolução no pedal</div>
+        <div class="lbl">Estrutura de Treino</div>
         <div class="sub">
-          Para quem está começando, o segredo não é andar rápido, e sim criar o hábito sem machucar os joelhos.
-          <br><br>
-          • <b>Longão:</b> Constrói sua base aeróbica. Ritmo de conversa o tempo todo.<br>
-          • <b>Ritmo:</b> Ensina o coração e pernas a girar um pouco mais firme.<br>
-          • <b>Leve:</b> Recuperação ativa para bombear sangue e aliviar o cansaço.<br><br>
-          A cada 3 semanas de evolução progressiva, o app programa 1 semana mais leve de recuperação.
+          <b>Longão:</b> resistência aeróbica em ritmo leve · <b>Ritmo:</b> cadência contínua · <b>Leve:</b> recuperação ativa.
         </div>
       </div>
 

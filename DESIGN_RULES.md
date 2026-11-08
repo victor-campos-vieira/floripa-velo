@@ -79,3 +79,13 @@ Para evitar bugs clássicos no iPhone:
 
 * Quando o ciclista clica em *"Meu GPS"*, o app **nunca** deve apenas dizer *"Minha posição"*.
 * O app deve obrigatoriamente fazer geocodificação reversa e **mostrar com clareza o bairro detectado** (ex: *"Agronômica, Florianópolis"*), garantindo que o ciclista veja onde o sinal foi fixado e possa corrigir caso haja drift de sinal.
+
+---
+
+## 7. Densidade de Texto & Ergonomia de Botões
+
+* **Cockpit em 15 Segundos:** O app foi desenhado para ser consultado antes de sair. Textos longos, parágrafos explicativos de teoria de treino ou checklists pesados na home são terminantemente proibidos. Use métricas diretas, números grandes e resumos de uma linha.
+* **Ergonomia e Display de Botões:**
+  * Qualquer elemento com classe `.btn` (seja `<button>` ou `<a>`) **deve obrigatoriamente** ter `display: inline-flex` ou `display: flex`, `box-sizing: border-box`, `align-items: center`, `justify-content: center` e `touch-action: manipulation`. Elementos inline puros com padding vertical vazam sobre outros textos em navegadores móveis (Safari iOS) e quebram o layout.
+  * O modificador `.full` deve ter `display: flex; width: 100%; box-sizing: border-box;`.
+* **Zero Cores Alheias:** Cores de marcas terceiras (como verde de WhatsApp `#25D366`) são proibidas. Todos os botões e links devem respeitar as cores institucionais (Ink `#0B0B0B`, Volt `#D4FF3A`, Laranja `#FF4D00` ou Branco com borda Ink).

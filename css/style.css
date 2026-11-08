@@ -532,17 +532,26 @@ input.sm {
 }
 
 .sos-btn {
-  background: #FEE2E2;
+  background: #FFF;
   border: 2px solid #B91C1C;
-  color: #991B1B;
+  color: #B91C1C;
   border-radius: 4px;
   padding: 10px 8px;
   text-align: center;
   font: 700 11px var(--mono);
   letter-spacing: 0.08em;
   text-decoration: none;
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
   text-transform: uppercase;
+  touch-action: manipulation;
+}
+
+.sos-btn:active {
+  background: #B91C1C;
+  color: #FFF;
 }
 
 .tip-box {
