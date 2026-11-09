@@ -72,6 +72,30 @@ window.FloripaVelo.Views.Today = {
     // 1. HERO CARD: Veredito, Vento e Bússola
     const windDirName = window.FloripaVelo.Utils.getWindDirectionName(currentHourData.d);
     const goldenWindow = Weather.getGoldenWindow(weather, todayStr);
+
+    // Variáveis auxiliares do Cockpit de Luz Solar
+    const nowTime = new Date();
+    const sunsetStr = weather.ps[todayStr] || '18:30';
+    const sunriseStr = weather.sr[todayStr] || '06:00';
+    const sunsetDate = new Date(`${todayStr}T${sunsetStr}:00`);
+    const sunriseDate = new Date(`${todayStr}T${sunriseStr}:00`);
+    const minsUntilSunset = Math.round((sunsetDate - nowTime) / 60000);
+    const isDaylight = nowTime >= sunriseDate && nowTime <= sunsetDate;
+
+    let lightVal = '';
+    let lightSub = '';
+    if (!isDaylight) {
+      lightVal = 'Noite';
+      lightSub = 'Farol obrigatório';
+    } else if (minsUntilSunset <= 60) {
+      lightVal = `${Math.max(0, minsUntilSunset)} min`;
+      lightSub = `Pôr às ${sunsetStr}`;
+    } else {
+      const hLight = Math.floor(minsUntilSunset / 60);
+      const mLight = minsUntilSunset % 60;
+      lightVal = mLight > 0 ? `${hLight}h${pad2(mLight)}` : `${hLight}h`;
+      lightSub = `Pôr do sol ${sunsetStr}`;
+    }
     html += `
       <div class="hero">
         <div class="lbl">Dá para pedalar agora?</div>
@@ -97,6 +121,25 @@ window.FloripaVelo.Views.Today = {
               <line x1="60" y1="54" x2="60" y2="96" stroke="#D4FF3A" stroke-width="5" stroke-linecap="round"/>
             </g>
           </svg>
+        </div>
+
+        <!-- COCKPIT DE CONDIÇÕES CRÍTICAS (CHUVA, SOL/UV, LUZ SOLAR) -->
+        <div class="cond-grid">
+          <div class="cond-item ${currentHourData.p >= 40 ? 'warn' : ''}">
+            <div class="cond-lbl">Chuva</div>
+            <div class="cond-val">${currentHourData.p}%</div>
+            <div class="cond-sub">${currentHourData.p >= 50 ? 'Risco pista molhada' : currentHourData.p >= 25 ? 'Possível garoa' : 'Pista seca'}</div>
+          </div>
+          <div class="cond-item ${currentHourData.sens >= 32 || currentHourData.sens <= 14 ? 'warn' : ''}">
+            <div class="cond-lbl">Sensação & UV</div>
+            <div class="cond-val">${currentHourData.sens}°</div>
+            <div class="cond-sub">UV ${currentHourData.uv} · ${Weather.getUvLabel(currentHourData.uv)}</div>
+          </div>
+          <div class="cond-item ${minsUntilSunset < 60 || !isDaylight ? 'warn' : ''}">
+            <div class="cond-lbl">Luz Solar</div>
+            <div class="cond-val">${lightVal}</div>
+            <div class="cond-sub">${lightSub}</div>
+          </div>
         </div>
 
         <div class="rs" style="margin-top:14px">
@@ -156,8 +199,7 @@ window.FloripaVelo.Views.Today = {
     const returnTime = new Date(now.getTime() + durationMinutes * 60000);
     const returnH = pad2(returnTime.getHours());
     const returnM = pad2(returnTime.getMinutes());
-    const sunsetStr = weather.ps[todayStr] || '18:30';
-    const sunsetDate = new Date(`${todayStr}T${sunsetStr}:00`);
+    // Reutiliza sunsetDate calculado para a sessão
     const diffSunsetMinutes = Math.round((sunsetDate - returnTime) / 60000);
 
     html += `

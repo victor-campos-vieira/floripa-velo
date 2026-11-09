@@ -122,39 +122,128 @@ window.FloripaVelo.Config = {
   ],
 
   // Planos de Ação Prontos para Iniciantes em Floripa
+  // Planos de Ação e Rotas Detalhadas em Floripa
   PLANOS_ROTAS_FLORIPA: [
     {
       id: 'plano_iniciante_beiramar',
       titulo: 'Plano 1: O Batismo Seguro na Beira-Mar',
-      distancia: '8 a 12 km ida e volta',
+      destLat: -27.5850,
+      destLng: -48.5300,
+      baseKmIda: 5.5,
       altimetria: 'Plano total (0 m de subida)',
       infra: '100% Ciclovia segregada',
       nivel: 'Iniciante absoluto',
-      movimento: 'Vazia das 06h às 08h · Muito cheia nos domingos (09h às 11h30)',
-      trajeto: 'Saia do Trapiche da Beira-Mar Norte rumo ao Koxixo\'s / Titri e retorne.',
-      dica: 'Piso de asfalto liso e largo. Atenção aos cruzamentos com saídas de carros e reduza a velocidade perto de crianças e cães nos fins de semana.'
+      movimento: 'Vazia das 06h às 08h30 · Movimentada aos domingos (caminhantes e crianças)',
+      trajeto: 'Ciclovia da Beira-Mar Norte: Trapiche ➔ Koxixo\'s / Titri ➔ Retorno',
+      dica: 'Asfalto liso e plano. Reduza o ritmo nos cruzamentos com acessos de estacionamento e postos.'
     },
     {
       id: 'plano_travessia_pontes',
       titulo: 'Plano 2: Cruzando a Ponte Hercílio Luz',
-      distancia: '14 a 18 km ida e volta',
-      altimetria: 'Rampa de acesso suave (~40 m)',
+      destLat: -27.5880,
+      destLng: -48.5830,
+      baseKmIda: 7.5,
+      altimetria: 'Rampa suave de acesso à ponte (~40 m)',
       infra: 'Ciclovia + Passarela da Ponte',
       nivel: 'Iniciante / Confiança',
-      movimento: 'Movimentada no vão central aos sábados e domingos',
-      trajeto: 'Beira-Mar Norte ➔ Parque da Luz ➔ Ponte Hercílio Luz ➔ Beira-Mar Continental e volta.',
-      dica: 'No vão central da ponte o vento é encanado e sopra mais forte. Segure o guidão com firmeza e reduza a velocidade perto de pedestres.'
+      movimento: 'Tranquila nos dias úteis · Bastante movimento de pedestres e fotos nos fins de semana',
+      trajeto: 'Beira-Mar Norte ➔ Parque da Luz ➔ Ponte Hercílio Luz ➔ Beira-Mar Continental ➔ Retorno',
+      dica: 'Atenção ao vento no vão central da ponte. Cruze as juntas metálicas de dilatação sempre reto (perpendicular), nunca na diagonal para o pneu não escorregar.'
     },
     {
       id: 'plano_expressa_sul',
-      titulo: 'Plano 3: O Retão do Aeroporto (Via Expressa Sul)',
-      distancia: '20 a 26 km ida e volta',
-      altimetria: 'Retão plano (~30 m)',
-      infra: '100% Ciclovia contínua',
+      titulo: 'Plano 3: O Desafio do Aeroporto (Via Expressa Sul ➔ Boulevard 14/32)',
+      destLat: -27.6680,
+      destLng: -48.5440,
+      baseKmIda: 16.5,
+      altimetria: 'Predominantemente plano (~35 m)',
+      infra: 'Ciclovia segregada + Ciclofaixa',
       nivel: 'Evolução / Ritmo',
-      movimento: 'Livre e rápida · Quase zero pedestres o dia todo',
-      trajeto: 'Início da Via Expressa Sul (Saco dos Limões) até o novo Aeroporto e volta.',
-      dica: 'Pista excelente para pedalar sem parar e construir fôlego. Atenção crítica: pista totalmente descampada. Se o Vento Sul estiver forte (>20 km/h), a volta será dura!'
+      movimento: 'Livre e rápida na Via Expressa Sul · Atenção nos cruzamentos do Trevo da Seta',
+      trajeto: 'Centro / Beira-Mar ➔ Via Expressa Sul ➔ Trevo da Seta / Carianos ➔ Boulevard 14/32',
+      segmentos: [
+        {
+          nome: 'Trecho 1: Via Expressa Sul (~5,5 km)',
+          infra: '100% ciclovia segregada',
+          desc: 'Asfalto contínuo no canteiro da rodovia, totalmente separado dos carros. Retão livre para manter cadência.'
+        },
+        {
+          nome: 'Trecho 2: Transição Trevo da Seta / Carianos (~2,5 km)',
+          infra: 'Ciclofaixa pintada & calçada compartilhada',
+          desc: 'Atenção redobrada: não é pista segregada! Cruzamento com semáforos, entradas de postos e trânsito do Trevo da Seta.'
+        },
+        {
+          nome: 'Trecho 3: Acesso ao Novo Aeroporto (~8,5 km)',
+          infra: 'Ciclovia segregada nova',
+          desc: 'Pista nova asfaltada e segregada ao lado da nova rodovia até o Boulevard 14/32 do Floripa Airport.'
+        }
+      ],
+      dicaIniciante: 'Opção curta: se 33 km for muito para o seu momento, pedale apenas o Trecho 1 (Via Expressa Sul até o Trevo da Seta) e retorne (~11 km total), aproveitando 100% de ciclovia protegida sem entrar no trânsito compartilhado.',
+      dicaVento: 'Pista totalmente descampada. Se o vento sul estiver acima de 20 km/h, o retorno do aeroporto para o Centro será duríssimo. Verifique o vento antes de sair!'
+    }
+  ],
+
+  // Pontos de Apoio Gratuitos em Floripa (Água Potável & Banheiro)
+  PONTOS_APOIO_FLORIPA: [
+    {
+      id: 'apoio_trapiche',
+      nome: 'Trapiche da Beira-Mar Norte',
+      lat: -27.5852,
+      lng: -48.5520,
+      servicos: 'Água gelada & Banheiro limpo gratuito',
+      desc: 'Base da Guarda Municipal e área de quadras. Bebedouros públicos acessíveis e banheiros mantidos pela Prefeitura.'
+    },
+    {
+      id: 'apoio_koxixos',
+      nome: 'Koxixo\'s (Beira-Mar Norte)',
+      lat: -27.5850,
+      lng: -48.5300,
+      servicos: 'Bebedouro público & Quiosques',
+      desc: 'Bebedouro no bolsão central e suporte nos quiosques da orla. Ponto de encontro tradicional de ciclistas.'
+    },
+    {
+      id: 'apoio_parque_luz',
+      nome: 'Parque da Luz (Cabeceira da Ponte)',
+      lat: -27.5939,
+      lng: -48.5659,
+      servicos: 'Banheiros públicos & Bebedouro',
+      desc: 'Parque arborizado na cabeceira insular da Ponte Hercílio Luz. Ótima parada antes ou depois de cruzar a ponte.'
+    },
+    {
+      id: 'apoio_continental',
+      nome: 'Beira-Mar Continental (Estreito)',
+      lat: -27.5880,
+      lng: -48.5830,
+      servicos: 'Sanitários públicos & Ponto de apoio',
+      desc: 'Sanitários municipais ao lado das quadras de areia e playground da Beira-Mar Continental.'
+    },
+    {
+      id: 'apoio_boulevard',
+      nome: 'Boulevard 14/32 (Aeroporto Floripa)',
+      lat: -27.6680,
+      lng: -48.5440,
+      servicos: 'Oásis do ciclista: água, banheiros climatizados e mesas',
+      desc: 'Espaço aberto ao público 24h, banheiros impecáveis, bebedouros, segurança patrimonial e praça com sombra.'
+    }
+  ],
+
+  // Guia de Emergência: O que fazer na Virada Repentina de Vento Sul
+  DICAS_VENTO_SUL: [
+    {
+      titulo: '1. Alivie a marcha imediatamente',
+      texto: 'Não lute contra o vento empurrando marcha pesada. Coloque na marcha mais leve da bike e gire as pernas soltas (80-90 RPM). Isso protege os joelhos e poupa o músculo da fadiga prematura.'
+    },
+    {
+      titulo: '2. Baixe o tronco sobre o guidão',
+      texto: 'Flexione os cotovelos e aproxime o peito do guidão. Seu tronco ereto funciona como uma vela contra o vento. Baixar a postura corta a resistência aerodinâmica em mais de 30%.'
+    },
+    {
+      titulo: '3. Feche o casaco ou coloque o corta-vento',
+      texto: 'A frente fria de Vento Sul traz queda brusca de temperatura em Floripa. Suor nas costas associado a vento polar causa choque térmico e perda rápida de rendimento.'
+    },
+    {
+      titulo: '4. Se estiver na Via Expressa Sul, mantenha duas mãos firmes',
+      texto: 'A ciclovia da Expressa Sul é totalmente descampada. Rajadas de travessia podem empurrar a roda dianteira: segure o guidão com firmeza pelas duas manoplas.'
     }
   ],
 
@@ -162,11 +251,11 @@ window.FloripaVelo.Config = {
   ROTAS_PERIGOSAS_FLORIPA: [
     {
       local: 'Morro da Lagoa da Conceição (SC-404)',
-      motivo: 'Subida muito íngreme, curvas cegas sem acostamento e tráfego rápido de ônibus e carros. Risco alto para quem ainda não tem marcha e fôlego.'
+      motivo: 'Subida íngreme com curvas cegas, sem ciclovia e sem acostamento utilizável. Tráfego rápido e constante de carros e ônibus.'
     },
     {
       local: 'SC-401 (Norte) e SC-405 (Sul)',
-      motivo: 'Rodovias estaduais de 80 km/h. O acostamento acumula cacos de vidro, arames de pneu e saídas de pistas de alta velocidade.'
+      motivo: 'Rodovias estaduais de 80 a 100 km/h. O acostamento acumula cacos de vidro, arames e cruzamentos de pista em alta velocidade.'
     }
   ],
 
