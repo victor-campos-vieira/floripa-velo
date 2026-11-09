@@ -89,3 +89,14 @@ Para evitar bugs clássicos no iPhone:
   * Qualquer elemento com classe `.btn` (seja `<button>` ou `<a>`) **deve obrigatoriamente** ter `display: inline-flex` ou `display: flex`, `box-sizing: border-box`, `align-items: center`, `justify-content: center` e `touch-action: manipulation`. Elementos inline puros com padding vertical vazam sobre outros textos em navegadores móveis (Safari iOS) e quebram o layout.
   * O modificador `.full` deve ter `display: flex; width: 100%; box-sizing: border-box;`.
 * **Zero Cores Alheias:** Cores de marcas terceiras (como verde de WhatsApp `#25D366`) são proibidas. Todos os botões e links devem respeitar as cores institucionais (Ink `#0B0B0B`, Volt `#D4FF3A`, Laranja `#FF4D00` ou Branco com borda Ink).
+
+---
+
+## 8. Foco em Decisão Pré-Pedal vs Registro Manual de Km
+
+* **Zero Burocracia Manual:** O app não tenta ser um diário manual de treino. Dispositivos como Apple Watch e Garmin já gravam batimentos e quilometragem automaticamente.
+* **O Valor Único do Floripa Velo:** Focar exclusivamente no que o Strava e relógios não entregam antes de sair de casa:
+  1. **Janela Ideal de Saída:** Quando o vento e a temperatura estão favoráveis hoje.
+  2. **Estratégia do Vento:** Qual rumo tomar na ida para voltar com vento a favor.
+  3. **Segurança de Ciclovias:** Destacar se a rota tem pista 100% segregada ou tráfego compartilhado perigoso em Floripa.
+  4. **Movimento da Ciclovia:** Alertar quando a pista está vazia para pedalar ou cheia de pedestres/crianças.

@@ -189,6 +189,62 @@ window.FloripaVelo.Weather = {
     return `Próxima janela favorável: ${dayLabel} às ${window.FloripaVelo.Utils.pad2(nextHour.h)}h.`;
   },
 
+  // Janela de Ouro do Vento (melhor horário para sair hoje)
+  getGoldenWindow(weatherData, todayStr) {
+    if (!weatherData || !weatherData.hs) return null;
+    const daylightHours = weatherData.hs.filter(x => x.dia === todayStr && x.h >= 5 && x.h <= 18);
+    if (!daylightHours.length) return null;
+
+    let bestBlock = null;
+    let bestAvgScore = Infinity;
+
+    for (let i = 0; i <= daylightHours.length - 2; i++) {
+      const block = daylightHours.slice(i, Math.min(daylightHours.length, i + 3));
+      const avgWind = block.reduce((s, h) => s + h.v, 0) / block.length;
+      const maxRain = Math.max(...block.map(h => h.p));
+      const score = avgWind + (maxRain > 40 ? 30 : maxRain > 15 ? 12 : 0);
+
+      if (score < bestAvgScore) {
+        bestAvgScore = score;
+        bestBlock = block;
+      }
+    }
+
+    if (!bestBlock || !bestBlock.length) return null;
+
+    const startH = bestBlock[0].h;
+    const endH = bestBlock[bestBlock.length - 1].h + 1;
+    const avgV = Math.round(bestBlock.reduce((s, h) => s + h.v, 0) / bestBlock.length);
+    const maxDayWind = Math.max(...daylightHours.map(x => x.v));
+
+    const currentH = new Date().getHours();
+    const isNow = currentH >= startH && currentH < endH;
+
+    let statusText = '';
+    if (isNow) {
+      statusText = `Janela aberta agora! Melhor horário até às ${window.FloripaVelo.Utils.pad2(endH)}h.`;
+    } else if (currentH < startH) {
+      statusText = `Melhor horário para sair hoje: ${window.FloripaVelo.Utils.pad2(startH)}h às ${window.FloripaVelo.Utils.pad2(endH)}h.`;
+    } else {
+      statusText = `A janela mais calma hoje foi das ${window.FloripaVelo.Utils.pad2(startH)}h às ${window.FloripaVelo.Utils.pad2(endH)}h (${avgV} km/h).`;
+    }
+
+    const windDir = window.FloripaVelo.Utils.getWindDirectionName(bestBlock[0].d);
+    let detailText = `Vento mais calmo do dia: ~${avgV} km/h vindo do ${windDir}.`;
+    if (maxDayWind >= avgV + 6) {
+      detailText += ` Em outros horários, as rajadas sobem para até ${maxDayWind} km/h.`;
+    }
+
+    return {
+      horario: `${window.FloripaVelo.Utils.pad2(startH)}h às ${window.FloripaVelo.Utils.pad2(endH)}h`,
+      avgV,
+      maxDayWind,
+      statusText,
+      detailText,
+      isNow
+    };
+  },
+
   // Busca dados na API Open-Meteo
   async fetchForecast(config, force = false) {
     if (!config || !config.lat || !config.lng) return null;

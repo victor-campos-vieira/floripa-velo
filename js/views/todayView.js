@@ -71,6 +71,7 @@ window.FloripaVelo.Views.Today = {
 
     // 1. HERO CARD: Veredito, Vento e Bússola
     const windDirName = window.FloripaVelo.Utils.getWindDirectionName(currentHourData.d);
+    const goldenWindow = Weather.getGoldenWindow(weather, todayStr);
     html += `
       <div class="hero">
         <div class="lbl">Dá para pedalar agora?</div>
@@ -102,6 +103,22 @@ window.FloripaVelo.Views.Today = {
           ${factors.map(f => `<div><i class="dot ${f[0]}"></i>${f[1]}</div>`).join('')}
         </div>
       </div>
+
+      <!-- JANELA IDEAL DE SAÍDA HOJE -->
+      ${goldenWindow ? `
+        <div class="card" style="border-left:6px solid var(--volt)">
+          <div class="lbl" style="color:var(--ink)">Janela Ideal de Saída · Hoje</div>
+          <div style="font:900 ultra-condensed 38px var(--fam);line-height:0.95;text-transform:uppercase;color:var(--ink)">
+            ${goldenWindow.horario}
+          </div>
+          <div class="sub" style="margin-top:6px;font-weight:700;color:var(--ink)">
+            ${goldenWindow.statusText}
+          </div>
+          <div class="sub" style="margin-top:2px">
+            ${goldenWindow.detailText}
+          </div>
+        </div>
+      ` : ''}
     `;
 
     // 2. CARD: Vento nas próximas 24 horas (Gráfico horário compacto)
@@ -159,7 +176,7 @@ window.FloripaVelo.Views.Today = {
         </div>
 
         <button class="btn p full" onclick="window.FloripaVelo.App.switchTab('plano')">
-          Registrar pedal
+          Ver Rotas Seguras em Floripa
         </button>
       </div>
     `;
@@ -182,7 +199,7 @@ window.FloripaVelo.Views.Today = {
         ${destinations.length === 0 ? `
           <div class="sub" style="margin-top:10px">Adicione lugares na aba <b>Mais</b> para ver o melhor trajeto neste vento.</div>
         ` : `
-          <div class="lbl" style="margin-top:14px">Lugares ordenados por este vento:</div>
+          <div class="lbl" style="margin-top:14px">Lugares recomendados para este vento:</div>
           ${Routing.rankDestinations(destinations, currentHourData, sessionKm, config).slice(0, 4).map(item => {
             const tagText = ['Ida contra o vento', 'Vento de lado', 'Ida a favor (volta dura)'][item.grade];
             const fitText = Math.abs(item.totalKm - sessionKm) <= sessionKm * 0.25
@@ -191,15 +208,29 @@ window.FloripaVelo.Views.Today = {
                 ? `menor que a sessão`
                 : `maior (retorne antes)`;
 
+            const infraTag = item.destination.infra || null;
+            const isSegregada = infraTag && infraTag.toLowerCase().includes('100%');
+
             return `
               <div class="pt">
-                <b>${esc(item.destination.nome)}</b>
-                ${!isLightWind ? `<span class="tag ${item.grade > 1 ? 'o' : ''}">${tagText}</span>` : ''}
-                <div class="sub">
+                <div class="f" style="margin:0;justify-content:space-between">
+                  <b>${esc(item.destination.nome)}</b>
+                  ${infraTag ? `
+                    <span class="tag ${isSegregada ? '' : 'o'}">
+                      ${esc(infraTag.split('·')[0].trim())}
+                    </span>
+                  ` : ''}
+                </div>
+                <div class="sub" style="margin-top:3px">
                   ${item.idaKm} km ida ${item.destination.rota && item.destination.rota.up ? `· subida ~${item.destination.rota.up}m` : ''}
                   · Total ≈ ${Math.round(item.totalKm)} km (${fitText})
-                  ${item.align.isRealRoute && !isLightWind ? `· contra em ${Math.round(item.align.fraction * 100)}% da ida` : ''}
+                  ${!isLightWind ? `· ${tagText}` : ''}
                 </div>
+                ${item.destination.movimento ? `
+                  <div class="sub" style="margin-top:2px;font-size:11.5px;color:var(--mut)">
+                    Movimento: ${esc(item.destination.movimento)}
+                  </div>
+                ` : ''}
               </div>
             `;
           }).join('')}

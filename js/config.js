@@ -49,7 +49,9 @@ window.FloripaVelo.Config = {
       lng: -48.5480,
       ref: 'Avenida Beira-Mar Norte, Centro',
       desc: '100% plano, ciclovia contínua, ampla e segura. O melhor lugar para começar.',
-      dificuldade: 'Iniciante (Plano)'
+      dificuldade: 'Iniciante (Plano)',
+      infra: '100% Ciclovia segregada',
+      movimento: 'Vazia das 06h às 08h · Muito movimentada após as 09h aos domingos'
     },
     {
       id: 'preset_ponte_hercilio',
@@ -58,7 +60,9 @@ window.FloripaVelo.Config = {
       lng: -48.5659,
       ref: 'Parque da Luz / Ponte Hercílio Luz',
       desc: 'Visual incrível, ciclovia na ponte. Atenção ao vento na travessia e pedestres.',
-      dificuldade: 'Iniciante (Leve)'
+      dificuldade: 'Iniciante (Leve)',
+      infra: 'Ciclovia + Passarela',
+      movimento: 'Movimentada com pedestres nos fins de semana'
     },
     {
       id: 'preset_bm_continental',
@@ -67,7 +71,9 @@ window.FloripaVelo.Config = {
       lng: -48.5830,
       ref: 'Beira-Mar Continental, Estreito',
       desc: 'Ciclovia larga, asfalto liso, plano e menos muvuca nos dias de semana.',
-      dificuldade: 'Iniciante (Plano)'
+      dificuldade: 'Iniciante (Plano)',
+      infra: '100% Ciclovia segregada',
+      movimento: 'Tranquila quase sempre · Movimentada fins de tarde'
     },
     {
       id: 'preset_via_expressa_sul',
@@ -76,7 +82,9 @@ window.FloripaVelo.Config = {
       lng: -48.5440,
       ref: 'Rodovia Gov. Aderbal Ramos da Silva / Aeroporto Floripa',
       desc: 'Ciclovia retilínea de longa extensão. Excelente para rodagem, mas venta bastante.',
-      dificuldade: 'Moderado (Exposto ao vento)'
+      dificuldade: 'Moderado (Exposto ao vento)',
+      infra: '100% Ciclovia contínua',
+      movimento: 'Livre e rápida · Pouquíssimos pedestres'
     },
     {
       id: 'preset_santo_antonio',
@@ -85,7 +93,9 @@ window.FloripaVelo.Config = {
       lng: -48.5190,
       ref: 'Santo Antônio de Lisboa, Norte da Ilha',
       desc: 'Trecho gastronômico e pôr do sol clássico. Asfalto compartilhado com carros em partes.',
-      dificuldade: 'Moderado (Tráfego)'
+      dificuldade: 'Moderado (Tráfego)',
+      infra: 'Ciclofaixa + Tráfego misto',
+      movimento: 'Evite fins de semana à tarde (fila de carros)'
     },
     {
       id: 'preset_campeche',
@@ -94,7 +104,9 @@ window.FloripaVelo.Config = {
       lng: -48.4820,
       ref: 'Campeche, Sul da Ilha',
       desc: 'Acesso pelo Sul. Cuidado com o retorno se bater o Vento Sul!',
-      dificuldade: 'Moderado / Longo'
+      dificuldade: 'Moderado / Longo',
+      infra: 'Trecho rodoviário parcial',
+      movimento: 'Tráfego intenso de carros em horário de pico'
     },
     {
       id: 'preset_lagoa',
@@ -102,8 +114,59 @@ window.FloripaVelo.Config = {
       lat: -27.6040,
       lng: -48.4680,
       ref: 'Lagoa da Conceição',
-      desc: '⚠️ Alerta de morro! Subir o Morro da Lagoa exige marcha muito leve ou empurrar a bike.',
-      dificuldade: 'Difícil (Subida forte)'
+      desc: 'Alerta de morro! Subir o Morro da Lagoa exige marcha muito leve ou empurrar a bike.',
+      dificuldade: 'Difícil (Subida forte)',
+      infra: 'Atenção: Rodovia sem ciclovia',
+      movimento: 'Trânsito pesado de veículos e curvas cegas'
+    }
+  ],
+
+  // Planos de Ação Prontos para Iniciantes em Floripa
+  PLANOS_ROTAS_FLORIPA: [
+    {
+      id: 'plano_iniciante_beiramar',
+      titulo: 'Plano 1: O Batismo Seguro na Beira-Mar',
+      distancia: '8 a 12 km ida e volta',
+      altimetria: 'Plano total (0 m de subida)',
+      infra: '100% Ciclovia segregada',
+      nivel: 'Iniciante absoluto',
+      movimento: 'Vazia das 06h às 08h · Muito cheia nos domingos (09h às 11h30)',
+      trajeto: 'Saia do Trapiche da Beira-Mar Norte rumo ao Koxixo\'s / Titri e retorne.',
+      dica: 'Piso de asfalto liso e largo. Atenção aos cruzamentos com saídas de carros e reduza a velocidade perto de crianças e cães nos fins de semana.'
+    },
+    {
+      id: 'plano_travessia_pontes',
+      titulo: 'Plano 2: Cruzando a Ponte Hercílio Luz',
+      distancia: '14 a 18 km ida e volta',
+      altimetria: 'Rampa de acesso suave (~40 m)',
+      infra: 'Ciclovia + Passarela da Ponte',
+      nivel: 'Iniciante / Confiança',
+      movimento: 'Movimentada no vão central aos sábados e domingos',
+      trajeto: 'Beira-Mar Norte ➔ Parque da Luz ➔ Ponte Hercílio Luz ➔ Beira-Mar Continental e volta.',
+      dica: 'No vão central da ponte o vento é encanado e sopra mais forte. Segure o guidão com firmeza e reduza a velocidade perto de pedestres.'
+    },
+    {
+      id: 'plano_expressa_sul',
+      titulo: 'Plano 3: O Retão do Aeroporto (Via Expressa Sul)',
+      distancia: '20 a 26 km ida e volta',
+      altimetria: 'Retão plano (~30 m)',
+      infra: '100% Ciclovia contínua',
+      nivel: 'Evolução / Ritmo',
+      movimento: 'Livre e rápida · Quase zero pedestres o dia todo',
+      trajeto: 'Início da Via Expressa Sul (Saco dos Limões) até o novo Aeroporto e volta.',
+      dica: 'Pista excelente para pedalar sem parar e construir fôlego. Atenção crítica: pista totalmente descampada. Se o Vento Sul estiver forte (>20 km/h), a volta será dura!'
+    }
+  ],
+
+  // Alertas de segurança em Floripa (onde o iniciante NÃO deve ir)
+  ROTAS_PERIGOSAS_FLORIPA: [
+    {
+      local: 'Morro da Lagoa da Conceição (SC-404)',
+      motivo: 'Subida muito íngreme, curvas cegas sem acostamento e tráfego rápido de ônibus e carros. Risco alto para quem ainda não tem marcha e fôlego.'
+    },
+    {
+      local: 'SC-401 (Norte) e SC-405 (Sul)',
+      motivo: 'Rodovias estaduais de 80 km/h. O acostamento acumula cacos de vidro, arames de pneu e saídas de pistas de alta velocidade.'
     }
   ],
 

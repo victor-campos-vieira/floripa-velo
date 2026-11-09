@@ -546,17 +546,6 @@ window.FloripaVelo.Views.More = {
         })()}
       </div>
 
-      <!-- Dicas essenciais do iniciante -->
-      <div class="card">
-        <div class="lbl">Dicas Essenciais</div>
-        ${Config.DICAS_INICIANTE.map(dica => `
-          <div class="tip-box">
-            <b>${dica.titulo}</b>
-            <div>${dica.texto}</div>
-          </div>
-        `).join('')}
-      </div>
-
       <!-- Contatos de emergência -->
       <div class="card" style="border-left:6px solid #B91C1C">
         <div class="lbl" style="color:#B91C1C">Contatos de Emergência</div>
